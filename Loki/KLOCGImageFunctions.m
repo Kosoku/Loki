@@ -250,6 +250,7 @@ CGImageRef KLOCGImageCreateImageByAdjustingContrastOfImageByDelta(CGImageRef ima
     CGColorSpaceRelease(colorSpace);
     
     if (!context) {
+        CGColorSpaceRelease(colorSpace);
         return NULL;
     }
     
@@ -260,6 +261,7 @@ CGImageRef KLOCGImageCreateImageByAdjustingContrastOfImageByDelta(CGImageRef ima
     
     if (!data) {
         CGContextRelease(context);
+        CGColorSpaceRelease(colorSpace);
         return NULL;
     }
     
@@ -299,6 +301,7 @@ CGImageRef KLOCGImageCreateImageByAdjustingContrastOfImageByDelta(CGImageRef ima
     CGImageRef destImageRef = CGBitmapContextCreateImage(context);
     
     CGContextRelease(context);
+    CGColorSpaceRelease(colorSpace);
     free(floatData);
     
     return destImageRef;
