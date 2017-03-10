@@ -22,7 +22,6 @@
 		07DB3D1A1E7221E10089F7F5 /* Loki.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07DB3CE01E7214500089F7F5 /* Loki.framework */; };
 		07DB3D1B1E7221E10089F7F5 /* Loki.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 07DB3CE01E7214500089F7F5 /* Loki.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		07DB3D211E7226BE0089F7F5 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07DB3D1F1E7226BE0089F7F5 /* ViewController.xib */; };
-		07E8EA761E722F01001639A2 /* KLODefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 07E8EA751E722F01001639A2 /* KLODefines.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,7 +69,6 @@
 		07DB3D131E721FFF0089F7F5 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/Accelerate.framework; sourceTree = DEVELOPER_DIR; };
 		07DB3D151E7220030089F7F5 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
 		07DB3D201E7226BE0089F7F5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ViewController.xib; sourceTree = "<group>"; };
-		07E8EA751E722F01001639A2 /* KLODefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KLODefines.h; sourceTree = "<group>"; };
 		07E8EA771E723AFF001639A2 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk/System/Library/Frameworks/CoreImage.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
@@ -140,7 +138,6 @@
 				07DB3CED1E7215B60089F7F5 /* UIImage+KLOExtensions.m */,
 				07DB3D0B1E7217010089F7F5 /* KLOCGImageFunctions.h */,
 				07DB3D0C1E7217010089F7F5 /* KLOCGImageFunctions.m */,
-				07E8EA751E722F01001639A2 /* KLODefines.h */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -188,7 +185,6 @@
 			files = (
 				07DB3D0D1E7217010089F7F5 /* KLOCGImageFunctions.h in Headers */,
 				07DB3CE51E7214500089F7F5 /* Loki.h in Headers */,
-				07E8EA761E722F01001639A2 /* KLODefines.h in Headers */,
 				07DB3CEE1E7215B60089F7F5 /* UIImage+KLOExtensions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
