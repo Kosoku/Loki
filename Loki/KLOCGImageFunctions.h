@@ -26,4 +26,6 @@ FOUNDATION_EXPORT _Nullable CGImageRef KLOCGImageCreateImageByBlurringImageWithR
 
 FOUNDATION_EXPORT _Nullable CGImageRef KLOCGImageCreateImageByAdjustingBrightnessOfImageByDelta(CGImageRef _Nullable imageRef, CGFloat delta);
 
+FOUNDATION_EXPORT _Nullable CGImageRef KLOCGImageCreateImageByAdjustingContrastOfImageByDelta(CGImageRef _Nullable imageRef, CGFloat delta);
+
 NS_ASSUME_NONNULL_END

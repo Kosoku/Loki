@@ -103,4 +103,21 @@
     return [KLOImage KLO_imageByAdjustingBrightnessOfImage:self delta:delta];
 }
 
++ (KLOImage *)KLO_imageByAdjustingContrastOfImage:(KLOImage *)image delta:(CGFloat)delta {
+    CGImageRef imageRef = KLOCGImageCreateImageByAdjustingContrastOfImageByDelta(KLOCGImageFromImage(image), delta);
+    
+    if (imageRef == NULL) {
+        return nil;
+    }
+    
+    KLOImage *retval = KLOImageFromCGImageAndImage(imageRef,image);
+    
+    CGImageRelease(imageRef);
+    
+    return retval;
+}
+- (KLOImage *)KLO_imageByAdjustingContrastBy:(CGFloat)delta {
+    return [KLOImage KLO_imageByAdjustingContrastOfImage:self delta:delta];
+}
+
 @end

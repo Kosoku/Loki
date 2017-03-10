@@ -194,3 +194,74 @@ CGImageRef KLOCGImageCreateImageByAdjustingBrightnessOfImageByDelta(CGImageRef i
     
     return destImageRef;
 }
+
+CGImageRef KLOCGImageCreateImageByAdjustingContrastOfImageByDelta(CGImageRef imageRef, CGFloat delta) {
+    if (imageRef == NULL) {
+        return NULL;
+    }
+    
+    // assume -1.0 to 1.0 range for delta, clamp actual value to -255 to 255
+    float floatDelta = KLOBoundedValue(floor(delta * 255.0), -255.0, 255.0);
+    
+    size_t width = (size_t)CGImageGetWidth(imageRef);
+    size_t height = (size_t)CGImageGetHeight(imageRef);
+    
+    // create a context to draw original image into
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGContextRef context = CGBitmapContextCreate(NULL, width, height, 8, 4 * width, colorSpace, kCGBitmapByteOrderDefault | (KLOCGImageHasAlpha(imageRef) ? kCGImageAlphaPremultipliedFirst : kCGImageAlphaNoneSkipFirst));
+    CGColorSpaceRelease(colorSpace);
+    
+    if (!context) {
+        return NULL;
+    }
+    
+    CGContextDrawImage(context, CGRectMake(0, 0, width, height), imageRef);
+    
+    // grab the raw pixel data
+    unsigned char *data = CGBitmapContextGetData(context);
+    
+    if (!data) {
+        CGContextRelease(context);
+        return NULL;
+    }
+    
+    // convert the raw data to float, since we are using the accelerate flt functions
+    size_t numberOfPixels = width * height;
+    float *floatData = malloc(sizeof(float) * numberOfPixels);
+    float minimum = 0, maximum = 255;
+    
+    // contrast factor
+    float contrast = (259.0f * (floatDelta + 255.0f)) / (255.0f * (259.0f - floatDelta));
+    float v1 = -128.0f, v2 = 128.0f;
+    
+    // red
+    vDSP_vfltu8(data + 1, 4, floatData, 1, numberOfPixels);
+    vDSP_vsadd(floatData, 1, &v1, floatData, 1, numberOfPixels);
+    vDSP_vsmul(floatData, 1, &contrast, floatData, 1, numberOfPixels);
+    vDSP_vsadd(floatData, 1, &v2, floatData, 1, numberOfPixels);
+    vDSP_vclip(floatData, 1, &minimum, &maximum, floatData, 1, numberOfPixels);
+    vDSP_vfixu8(floatData, 1, data + 1, 4, numberOfPixels);
+    
+    // green
+    vDSP_vfltu8(data + 2, 4, floatData, 1, numberOfPixels);
+    vDSP_vsadd(floatData, 1, &v1, floatData, 1, numberOfPixels);
+    vDSP_vsmul(floatData, 1, &contrast, floatData, 1, numberOfPixels);
+    vDSP_vsadd(floatData, 1, &v2, floatData, 1, numberOfPixels);
+    vDSP_vclip(floatData, 1, &minimum, &maximum, floatData, 1, numberOfPixels);
+    vDSP_vfixu8(floatData, 1, data + 2, 4, numberOfPixels);
+    
+    // blue
+    vDSP_vfltu8(data + 3, 4, floatData, 1, numberOfPixels);
+    vDSP_vsadd(floatData, 1, &v1, floatData, 1, numberOfPixels);
+    vDSP_vsmul(floatData, 1, &contrast, floatData, 1, numberOfPixels);
+    vDSP_vsadd(floatData, 1, &v2, floatData, 1, numberOfPixels);
+    vDSP_vclip(floatData, 1, &minimum, &maximum, floatData, 1, numberOfPixels);
+    vDSP_vfixu8(floatData, 1, data + 3, 4, numberOfPixels);
+    
+    CGImageRef destImageRef = CGBitmapContextCreateImage(context);
+    
+    CGContextRelease(context);
+    free(floatData);
+    
+    return destImageRef;
+}

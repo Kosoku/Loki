@@ -76,6 +76,23 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (nullable NSImage *)KLO_imageByAdjustingBrightnessBy:(CGFloat)delta;
 
+/**
+ Creates a new image by adjusting the contrast of image by delta. The delta parameter should be between -1.0 and 1.0, with negative numbers decreasing the contrast and positive numbers increasing the contrast by a percentage. For example, 0.5 would return an image where the contrast has been increased by 50 percent over the original. The delta parameter is clamped between -1.0 and 1.0, when larger values are provided.
+ 
+ @param image The image whose contrast to adjust
+ @param delta The amount to adjust the image contrast by
+ @return The image with its contrast adjusted
+ @exception NSException Thrown if _image_ is nil
+ */
++ (nullable NSImage *)KLO_imageByAdjustingContrastOfImage:(NSImage *)image delta:(CGFloat)delta;
+/**
+ Calls `+[NSImage BB_imageByAdjustingContrastOfImage:delta:]`, passing self and _delta_ respectively.
+ 
+ @param delta The amount to adjust the image contrast by
+ @return The image with its contrast adjusted
+ */
+- (nullable NSImage *)KLO_imageByAdjustingContrastBy:(CGFloat)delta;
+
 @end
 
 NS_ASSUME_NONNULL_END

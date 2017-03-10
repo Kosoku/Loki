@@ -47,7 +47,7 @@
     
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
 //        image = [image KLO_imageByBlurringWithRadius:10.0];
-        image = [image KLO_imageByAdjustingBrightnessBy:0.5];
+        image = [image KLO_imageByAdjustingBrightnessBy:-0.5];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.imageView setImage:[image KLO_imageByResizingToSize:self.imageView.frame.size]];
