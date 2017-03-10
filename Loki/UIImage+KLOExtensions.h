@@ -59,6 +59,23 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (nullable UIImage *)KLO_imageByBlurringWithRadius:(CGFloat)radius;
 
+/**
+ Creates a new image by adjusting the brightness of image by delta. The delta parameter should be between -1.0 and 1.0, with negative numbers making the image darker and positive numbers making it lighter by a percentage. For example, 0.5 would return an image that is 50 percent brighter than the original. The delta parameter is clamped between -1.0 and 1.0, when larger values are provided.
+ 
+ @param image The image to brighten or darken
+ @param delta The amount to brighten or darken the image
+ @return The brightened or darkened image
+ @exception NSException Thrown if _image_ is nil
+ */
++ (nullable UIImage *)KLO_imageByAdjustingBrightnessOfImage:(UIImage *)image delta:(CGFloat)delta;
+/**
+ Calls `+[UIImage BB_imageByAdjustingBrightnessOfImage:delta:]`, passing self and _delta_ respectively.
+ 
+ @param delta The amount to brighten or darken the image
+ @return The brightened or darkened image
+ */
+- (nullable UIImage *)KLO_imageByAdjustingBrightnessBy:(CGFloat)delta;
+
 @end
 
 NS_ASSUME_NONNULL_END

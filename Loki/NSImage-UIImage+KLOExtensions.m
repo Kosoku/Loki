@@ -25,11 +25,11 @@
 #if (TARGET_OS_IPHONE)
 #define KLOImage UIImage
 #define KLOCGImageFromImage(theImage) (theImage.CGImage)
-#define KLOImageFromCGImage(theImageRef) ([[UIImage alloc] initWithCGImage:theImageRef scale:theImageRef.scale orientation:theImageRef.imageOrientation])
+#define KLOImageFromCGImageAndImage(theImageRef,theImage) ([[UIImage alloc] initWithCGImage:theImageRef scale:theImage.scale orientation:theImage.imageOrientation])
 #else
 #define KLOImage NSImage
 #define KLOCGImageFromImage(theImage) ([theImage CGImageForProposedRect:NULL context:nil hints:nil])
-#define KLOImageFromCGImage(theImageRef) ([[NSImage alloc] initWithCGImage:theImageRef size:NSZeroSize])
+#define KLOImageFromCGImageAndImage(theImageRef,theImage) ([[NSImage alloc] initWithCGImage:theImageRef size:NSZeroSize])
 #endif
 
 #if (TARGET_OS_IPHONE)
@@ -53,7 +53,7 @@
         return nil;
     }
     
-    KLOImage *retval = KLOImageFromCGImage(imageRef);
+    KLOImage *retval = KLOImageFromCGImageAndImage(imageRef,image);
     
     CGImageRelease(imageRef);
     
@@ -76,7 +76,7 @@
         return nil;
     }
     
-    KLOImage *retval = KLOImageFromCGImage(imageRef);
+    KLOImage *retval = KLOImageFromCGImageAndImage(imageRef,image);
     
     CGImageRelease(imageRef);
     
@@ -84,6 +84,23 @@
 }
 - (KLOImage *)KLO_imageByBlurringWithRadius:(CGFloat)radius; {
     return [KLOImage KLO_imageByBlurringImage:self radius:radius];
+}
+
++ (KLOImage *)KLO_imageByAdjustingBrightnessOfImage:(KLOImage *)image delta:(CGFloat)delta; {
+    CGImageRef imageRef = KLOCGImageCreateImageByAdjustingBrightnessOfImageByDelta(KLOCGImageFromImage(image), delta);
+    
+    if (imageRef == NULL) {
+        return nil;
+    }
+    
+    KLOImage *retval = KLOImageFromCGImageAndImage(imageRef,image);
+    
+    CGImageRelease(imageRef);
+    
+    return retval;
+}
+- (KLOImage *)KLO_imageByAdjustingBrightnessBy:(CGFloat)delta; {
+    return [KLOImage KLO_imageByAdjustingBrightnessOfImage:self delta:delta];
 }
 
 @end

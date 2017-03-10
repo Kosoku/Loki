@@ -24,4 +24,6 @@ FOUNDATION_EXPORT _Nullable CGImageRef KLOCGImageCreateThumbnailWithSizeMaintain
 
 FOUNDATION_EXPORT _Nullable CGImageRef KLOCGImageCreateImageByBlurringImageWithRadius(CGImageRef _Nullable imageRef, CGFloat radius);
 
+FOUNDATION_EXPORT _Nullable CGImageRef KLOCGImageCreateImageByAdjustingBrightnessOfImageByDelta(CGImageRef _Nullable imageRef, CGFloat delta);
+
 NS_ASSUME_NONNULL_END
