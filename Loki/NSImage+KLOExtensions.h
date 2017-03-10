@@ -27,15 +27,57 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)KLO_hasAlpha;
 
 /**
- Creates and returns a UIImage by resizing *image* to *size* while maintaining its aspect ratio.
+ Creates and returns a NSImage by rendering _image_ with _color_.
  
- @param image The UIImage to resize
+ @param image The NSImage to render as a template
+ @param color The UIColor to use when rendering _image_
+ @return The rendered template image
+ @exception NSException Thrown if _image_ or _color_ are nil
+ */
++ (NSImage *)KLO_imageByRenderingImage:(NSImage *)image withColor:(NSColor *)color;
+/**
+ Calls `[NSImage KLO_imageByRenderingImage:self withColor:color]`.
+ 
+ @param color The UIColor to use when rendering self
+ @return The rendered template image
+ */
+- (NSImage *)KLO_imageByRenderingWithColor:(NSColor *)color;
+
+/**
+ Creates a new image by first drawing the image then drawing a rectangle of color over it.
+ 
+ @param image The original image
+ @param color The color to overlay on top of the image, it should have some level of opacity
+ @return The tinted image
+ @exception NSException Thrown if _image_ or _color_ are nil
+ */
++ (NSImage *)KLO_imageByTintingImage:(NSImage *)image withColor:(NSColor *)color;
+/**
+ Calls `[NSImage KLO_imageByTintingImage:self withColor:color]`.
+ 
+ @param color The color to overlay on top of the image, it should have some level of opacity
+ @return The tinted image
+ */
+- (NSImage *)KLO_imageByTintingWithColor:(NSColor *)color;
+
+/**
+ Returns a resizable image drawn as 1x1 with the provided color and its resizingMode property set to NSImageResizingModeTile.
+ 
+ @param color The color to use when filling the image
+ @return The resizable image
+ */
++ (NSImage *)KLO_resizableImageWithColor:(NSColor *)color;
+
+/**
+ Creates and returns a NSImage by resizing *image* to *size* while maintaining its aspect ratio.
+ 
+ @param image The NSImage to resize
  @param size The target size
  @return The resized image
  */
 + (nullable NSImage *)KLO_imageByResizingImage:(NSImage *)image toSize:(CGSize)size;
 /**
- Returns `[UIImage BB_imageByResizingImage:self toSize:size]`.
+ Returns `[NSImage KLO_imageByResizingImage:self toSize:size]`.
  
  @param size The target size
  @return The resized image
@@ -52,7 +94,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (nullable NSImage *)KLO_imageByBlurringImage:(NSImage *)image radius:(CGFloat)radius;
 /**
- Calls `+[UIImage BB_imageByBlurringImage:radius:]`, passing self and _radius_ respectively.
+ Calls `[NSImage KLO_imageByBlurringImage:self radius:radius]`.
  
  @param radius A value greater than 0.0 describing the blur radius to use
  @return The blurred image
@@ -69,7 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (nullable NSImage *)KLO_imageByAdjustingBrightnessOfImage:(NSImage *)image delta:(CGFloat)delta;
 /**
- Calls `+[NSImage BB_imageByAdjustingBrightnessOfImage:delta:]`, passing self and _delta_ respectively.
+ Calls `[NSImage KLO_imageByAdjustingBrightnessOfImage:self delta:delta]`.
  
  @param delta The amount to brighten or darken the image
  @return The brightened or darkened image
@@ -86,12 +128,29 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (nullable NSImage *)KLO_imageByAdjustingContrastOfImage:(NSImage *)image delta:(CGFloat)delta;
 /**
- Calls `+[NSImage BB_imageByAdjustingContrastOfImage:delta:]`, passing self and _delta_ respectively.
+ Calls `[NSImage KLO_imageByAdjustingContrastOfImage:self delta:delta]`.
  
  @param delta The amount to adjust the image contrast by
  @return The image with its contrast adjusted
  */
 - (nullable NSImage *)KLO_imageByAdjustingContrastBy:(CGFloat)delta;
+
+/**
+ Creates a new image by adjusting the saturation of image by delta. Values less than 1.0 will desaturate the image, values greater than 1.0 will supersaturate the image.
+ 
+ @param image The image to desaturate or supersaturate
+ @param delta The amount to adjust the image saturation
+ @return The image with adjusted saturation
+ @exception NSException Thrown if _image_ is nil
+ */
++ (nullable NSImage *)KLO_imageByAdjustingSaturationOfImage:(NSImage *)image delta:(CGFloat)delta;
+/**
+ Calls `[NSImage KLO_imageByAdjustingSaturationOfImage:self delta:delta]`.
+ 
+ @param delta The amount to adjust the image saturation
+ @return The image with adjusted saturation
+ */
+- (nullable NSImage *)KLO_imageByAdjustingSaturationBy:(CGFloat)delta;
 
 @end
 

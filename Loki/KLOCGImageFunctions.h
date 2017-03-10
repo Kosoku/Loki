@@ -28,4 +28,6 @@ FOUNDATION_EXPORT _Nullable CGImageRef KLOCGImageCreateImageByAdjustingBrightnes
 
 FOUNDATION_EXPORT _Nullable CGImageRef KLOCGImageCreateImageByAdjustingContrastOfImageByDelta(CGImageRef _Nullable imageRef, CGFloat delta);
 
+FOUNDATION_EXPORT _Nullable CGImageRef KLOCGImageCreateImageByAdjustingSaturationOfImageByDelta(CGImageRef _Nullable imageRef, CGFloat delta);
+
 NS_ASSUME_NONNULL_END

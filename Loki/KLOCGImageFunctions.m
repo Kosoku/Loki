@@ -265,3 +265,66 @@ CGImageRef KLOCGImageCreateImageByAdjustingContrastOfImageByDelta(CGImageRef ima
     
     return destImageRef;
 }
+
+CGImageRef KLOCGImageCreateImageByAdjustingSaturationOfImageByDelta(CGImageRef _Nullable imageRef, CGFloat delta) {
+    if (imageRef == NULL) {
+        return NULL;
+    }
+    
+    // http://www.w3.org/TR/filter-effects-1/#elementdef-fecolormatrix
+    CGFloat floatingPointSaturationMatrix[] = {
+        0.0722 + 0.9278 * delta,  0.0722 - 0.0722 * delta,  0.0722 - 0.0722 * delta,  0,
+        0.7152 - 0.7152 * delta,  0.7152 + 0.2848 * delta,  0.7152 - 0.7152 * delta,  0,
+        0.2126 - 0.2126 * delta,  0.2126 - 0.2126 * delta,  0.2126 + 0.7873 * delta,  0,
+        0,                    0,                    0,                    1,
+    };
+    
+    // the maxtrix elements passed to accelerate need to be int16_t, this snippet converts them
+    int32_t divisor = 256;
+    NSUInteger matrixSize = sizeof(floatingPointSaturationMatrix)/sizeof(floatingPointSaturationMatrix[0]);
+    int16_t saturationMatrix[matrixSize];
+    for (NSUInteger i = 0; i < matrixSize; i++) {
+        saturationMatrix[i] = (int16_t)roundf(floatingPointSaturationMatrix[i] * divisor);
+    }
+    
+    // setup source and destination buffers for accelerate to work on
+    CGSize destSize = CGSizeMake(CGImageGetWidth(imageRef), CGImageGetHeight(imageRef));
+    vImage_Buffer source;
+    vImage_CGImageFormat imageFormat = {(uint32_t)CGImageGetBitsPerComponent(imageRef), (uint32_t)CGImageGetBitsPerPixel(imageRef), CGImageGetColorSpace(imageRef), CGImageGetBitmapInfo(imageRef), 0, NULL, kCGRenderingIntentDefault};
+    vImage_Error error = vImageBuffer_InitWithCGImage(&source, &imageFormat, NULL, imageRef, kvImageNoFlags);
+    
+    if (error != kvImageNoError) {
+        free(source.data);
+        return NULL;
+    }
+    
+    vImage_Buffer destination;
+    error = vImageBuffer_Init(&destination, (vImagePixelCount)destSize.height, (vImagePixelCount)destSize.width, (uint32_t)CGImageGetBitsPerPixel(imageRef), kvImageNoFlags);
+    
+    if (error != kvImageNoError) {
+        free(source.data);
+        free(destination.data);
+        return NULL;
+    }
+    
+    // perform the matrix multiply adjusting the saturation
+    error = vImageMatrixMultiply_ARGB8888(&source, &destination, saturationMatrix, divisor, NULL, NULL, kvImageNoFlags);
+    
+    if (error != kvImageNoError) {
+        free(source.data);
+        free(destination.data);
+        return NULL;
+    }
+    
+    CGImageRef destImageRef = vImageCreateCGImageFromBuffer(&destination, &imageFormat, NULL, NULL, kvImageNoFlags, &error);
+    
+    free(source.data);
+    free(destination.data);
+    
+    if (error != kvImageNoError) {
+        CGImageRelease(destImageRef);
+        return NULL;
+    }
+    
+    return destImageRef;
+}

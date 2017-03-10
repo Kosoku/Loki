@@ -24,10 +24,12 @@
 
 #if (TARGET_OS_IPHONE)
 #define KLOImage UIImage
+#define KLOColor UIColor
 #define KLOCGImageFromImage(theImage) (theImage.CGImage)
 #define KLOImageFromCGImageAndImage(theImageRef,theImage) ([[UIImage alloc] initWithCGImage:theImageRef scale:theImage.scale orientation:theImage.imageOrientation])
 #else
 #define KLOImage NSImage
+#define KLOColor NSColor
 #define KLOCGImageFromImage(theImage) ([theImage CGImageForProposedRect:NULL context:nil hints:nil])
 #define KLOImageFromCGImageAndImage(theImageRef,theImage) ([[NSImage alloc] initWithCGImage:theImageRef size:NSZeroSize])
 #endif
@@ -44,6 +46,100 @@
 #else
     return KLOCGImageHasAlpha([self CGImageForProposedRect:NULL context:nil hints:nil]);
 #endif
+}
+
++ (KLOImage *)KLO_imageByRenderingImage:(KLOImage *)image withColor:(KLOColor *)color {
+    NSParameterAssert(image);
+    NSParameterAssert(color);
+    
+    KLOImage *retval;
+    
+#if (TARGET_OS_IPHONE)
+    UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
+    
+    [color setFill];
+    [[image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] drawAtPoint:CGPointZero blendMode:kCGBlendModeNormal alpha:1.0];
+    
+    retval = [UIGraphicsGetImageFromCurrentImageContext() imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    
+    UIGraphicsEndImageContext();
+#else
+    retval = [image copy];
+    
+    [retval lockFocus];
+    
+    [color set];
+    NSRectFillUsingOperation(NSMakeRect(0, 0, retval.size.width, retval.size.height), NSCompositingOperationSourceAtop);
+    
+    [retval unlockFocus];
+#endif
+    
+    return retval;
+}
+- (KLOImage *)KLO_imageByRenderingWithColor:(KLOColor *)color {
+    return [KLOImage KLO_imageByRenderingImage:self withColor:color];
+}
+
++ (KLOImage *)KLO_imageByTintingImage:(KLOImage *)image withColor:(KLOColor *)color {
+    NSParameterAssert(image);
+    NSParameterAssert(color);
+    
+    KLOImage *retval;
+    
+#if (TARGET_OS_IPHONE)
+    UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
+    
+    [color setFill];
+    [[image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] drawAtPoint:CGPointZero blendMode:kCGBlendModeNormal alpha:1.0];
+    
+    retval = [UIGraphicsGetImageFromCurrentImageContext() imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    
+    UIGraphicsEndImageContext();
+#else
+    retval = [image copy];
+    
+    [retval lockFocus];
+    
+    [color set];
+    NSRectFillUsingOperation(NSMakeRect(0, 0, retval.size.width, retval.size.height), NSCompositingOperationColor);
+    
+    [retval unlockFocus];
+#endif
+    
+    return retval;
+}
+- (KLOImage *)KLO_imageByTintingWithColor:(KLOColor *)color {
+    return [KLOImage KLO_imageByTintingImage:self withColor:color];
+}
+
++ (KLOImage *)KLO_resizableImageWithColor:(KLOColor *)color {
+    NSParameterAssert(color);
+    
+    KLOImage *retval;
+    
+#if (TARGET_OS_IPHONE)
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(1, 1), NO, 0);
+    
+    [color setFill];
+    UIRectFill(CGRectMake(0, 0, 1, 1));
+    
+    retval = [UIGraphicsGetImageFromCurrentImageContext() resizableImageWithCapInsets:UIEdgeInsetsZero];
+    
+    UIGraphicsEndImageContext();
+#else
+    retval = [[NSImage alloc] initWithSize:NSMakeSize(1, 1)];
+    
+    [retval setResizingMode:NSImageResizingModeTile];
+    
+    [retval lockFocus];
+    
+    [color setFill];
+    NSRectFill(NSMakeRect(0, 0, 1, 1));
+    
+    [retval unlockFocus];
+#endif
+    
+    return retval;
 }
 
 + (KLOImage *)KLO_imageByResizingImage:(KLOImage *)image toSize:(CGSize)size; {
@@ -118,6 +214,23 @@
 }
 - (KLOImage *)KLO_imageByAdjustingContrastBy:(CGFloat)delta {
     return [KLOImage KLO_imageByAdjustingContrastOfImage:self delta:delta];
+}
+
++ (KLOImage *)KLO_imageByAdjustingSaturationOfImage:(KLOImage *)image delta:(CGFloat)delta {
+    CGImageRef imageRef = KLOCGImageCreateImageByAdjustingSaturationOfImageByDelta(KLOCGImageFromImage(image), delta);
+    
+    if (imageRef == NULL) {
+        return nil;
+    }
+    
+    KLOImage *retval = KLOImageFromCGImageAndImage(imageRef,image);
+    
+    CGImageRelease(imageRef);
+    
+    return retval;
+}
+- (KLOImage *)KLO_imageByAdjustingSaturationBy:(CGFloat)delta {
+    return [KLOImage KLO_imageByAdjustingSaturationOfImage:self delta:delta];
 }
 
 @end
