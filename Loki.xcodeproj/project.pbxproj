@@ -22,7 +22,6 @@
 		07DB3D1B1E7221E10089F7F5 /* Loki.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 07DB3CE01E7214500089F7F5 /* Loki.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		07DB3D211E7226BE0089F7F5 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07DB3D1F1E7226BE0089F7F5 /* ViewController.xib */; };
 		07E8EA871E724A4D001639A2 /* Loki.h in Headers */ = {isa = PBXBuildFile; fileRef = 07DB3CE31E7214500089F7F5 /* Loki.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		07E8EA881E724A4D001639A2 /* UIImage+KLOExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 07DB3CEC1E7215B60089F7F5 /* UIImage+KLOExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		07E8EA891E724A52001639A2 /* KLOCGImageFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 07DB3D0B1E7217010089F7F5 /* KLOCGImageFunctions.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		07E8EA8A1E724A59001639A2 /* NSImage-UIImage+KLOExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 07DB3CED1E7215B60089F7F5 /* NSImage-UIImage+KLOExtensions.m */; };
 		07E8EA8B1E724A59001639A2 /* KLOCGImageFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 07DB3D0C1E7217010089F7F5 /* KLOCGImageFunctions.m */; };
@@ -184,7 +183,7 @@
 		07DB3CE31E7214500089F7F5 /* Loki.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Loki.h; sourceTree = "<group>"; };
 		07DB3CE41E7214500089F7F5 /* Loki-iOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Loki-iOS-Info.plist"; sourceTree = "<group>"; };
 		07DB3CEA1E72148C0089F7F5 /* Loki-Info.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Loki-Info.h"; sourceTree = "<group>"; };
-		07DB3CEC1E7215B60089F7F5 /* UIImage+KLOExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+KLOExtensions.h"; sourceTree = "<group>"; };
+		07DB3CEC1E7215B60089F7F5 /* UIImage+KLOExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+KLOExtensions.h"; path = "iOS/UIImage+KLOExtensions.h"; sourceTree = "<group>"; };
 		07DB3CED1E7215B60089F7F5 /* NSImage-UIImage+KLOExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage-UIImage+KLOExtensions.m"; sourceTree = "<group>"; };
 		07DB3CF41E72160C0089F7F5 /* LokiDemo-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LokiDemo-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		07DB3CF71E72160C0089F7F5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -212,7 +211,7 @@
 		07E8EA9B1E724A7D001639A2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		07E8EA9E1E724A7D001639A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		07E8EAA01E724A7D001639A2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		07E8EAA71E7250EA001639A2 /* NSImage+KLOExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+KLOExtensions.h"; sourceTree = "<group>"; };
+		07E8EAA71E7250EA001639A2 /* NSImage+KLOExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSImage+KLOExtensions.h"; path = "macOS/NSImage+KLOExtensions.h"; sourceTree = "<group>"; };
 		07E8EAB01E7272A4001639A2 /* Loki.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Loki.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		07E8EAB81E7272D9001639A2 /* Loki-tvOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Loki-tvOS-Info.plist"; sourceTree = "<group>"; };
 		07E8EAC21E727463001639A2 /* LokiDemo-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LokiDemo-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -519,7 +518,6 @@
 				07E8EA891E724A52001639A2 /* KLOCGImageFunctions.h in Headers */,
 				07E8EA871E724A4D001639A2 /* Loki.h in Headers */,
 				07E8EAA91E7250EA001639A2 /* NSImage+KLOExtensions.h in Headers */,
-				07E8EA881E724A4D001639A2 /* UIImage+KLOExtensions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
