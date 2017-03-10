@@ -700,7 +700,7 @@
                                     <constraint firstAttribute="height" constant="384" id="A0m-Ow-yyq"/>
                                     <constraint firstAttribute="width" constant="384" id="pzV-8C-xcC"/>
                                 </constraints>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="79H-ld-xwr"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" id="79H-ld-xwr"/>
                             </imageView>
                         </subviews>
                         <constraints>

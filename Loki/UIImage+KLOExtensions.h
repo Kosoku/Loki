@@ -84,6 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (nullable UIImage *)KLO_imageByResizingToSize:(CGSize)size;
 
+#if (!TARGET_OS_WATCH)
 /**
  Creates a new image by blurring *image* using a box blur.
  
@@ -151,6 +152,7 @@ NS_ASSUME_NONNULL_BEGIN
  @return The image with adjusted saturation
  */
 - (nullable UIImage *)KLO_imageByAdjustingSaturationBy:(CGFloat)delta;
+#endif
 
 @end
 

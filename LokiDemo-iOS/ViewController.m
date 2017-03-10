@@ -42,7 +42,7 @@
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 for (UIImageView *imageView in self.imageViews) {
-                    [imageView setImage:[image KLO_imageByResizingToSize:imageView.frame.size]];
+                    [imageView setImage:[[image KLO_imageByResizingToSize:imageView.frame.size] KLO_imageByTintingWithColor:[[UIColor orangeColor] colorWithAlphaComponent:0.5]]];
                 }
             });
         });

@@ -89,12 +89,22 @@
 #if (TARGET_OS_IPHONE)
     UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
     
-    [color setFill];
-    [[image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] drawAtPoint:CGPointZero blendMode:kCGBlendModeNormal alpha:1.0];
+    CGContextRef context = UIGraphicsGetCurrentContext();
     
-    retval = [UIGraphicsGetImageFromCurrentImageContext() imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    CGContextTranslateCTM(context, 0, image.size.height);
+    CGContextScaleCTM(context, 1, -1);
+    
+    CGContextDrawImage(context, CGRectMake(0, 0, image.size.width, image.size.height), image.CGImage);
+    
+    CGContextClipToMask(UIGraphicsGetCurrentContext(), CGRectMake(0, 0, image.size.width, image.size.height), image.CGImage);
+    CGContextSetFillColorWithColor(context, color.CGColor);
+    UIRectFillUsingBlendMode(CGRectMake(0, 0, image.size.width, image.size.height), kCGBlendModeNormal);
+    
+    retval = UIGraphicsGetImageFromCurrentImageContext();
     
     UIGraphicsEndImageContext();
+    
+    return retval;
 #else
     retval = [image copy];
     
@@ -159,6 +169,7 @@
     return [KLOImage KLO_imageByResizingImage:self toSize:size];
 }
 
+#if (!TARGET_OS_WATCH)
 + (KLOImage *)KLO_imageByBlurringImage:(KLOImage *)image radius:(CGFloat)radius; {
 #if (TARGET_OS_IPHONE)
     radius = radius * [UIScreen mainScreen].scale;
@@ -232,5 +243,6 @@
 - (KLOImage *)KLO_imageByAdjustingSaturationBy:(CGFloat)delta {
     return [KLOImage KLO_imageByAdjustingSaturationOfImage:self delta:delta];
 }
+#endif
 
 @end

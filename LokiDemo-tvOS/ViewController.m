@@ -30,7 +30,7 @@
         UIImage *image = [[UIImage imageNamed:@"blur_image"] KLO_imageByBlurringWithRadius:75.0];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.blurImageView setImage:[image KLO_imageByResizingToSize:self.blurImageView.frame.size]];
+            [self.blurImageView setImage:[[image KLO_imageByResizingToSize:self.blurImageView.frame.size] KLO_imageByTintingWithColor:[[UIColor orangeColor] colorWithAlphaComponent:0.5]]];
         });
     });
 }

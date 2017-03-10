@@ -15,13 +15,26 @@
 
 #import "KLOCGImageFunctions.h"
 
+#if (!TARGET_OS_WATCH)
 #import <Accelerate/Accelerate.h>
-#import <AVFoundation/AVFoundation.h>
+#endif
 
 #define KLOBoundedValue(value, min, max) MAX(MIN((value), (max)), (min))
 
 static CGSize KLOCGImageThumbnailSizeFromSizeMaintainingAspectRatio(CGImageRef imageRef, CGSize size, bool maintainAspectRatio) {
-    return maintainAspectRatio ? AVMakeRectWithAspectRatioInsideRect(CGSizeMake(CGImageGetWidth(imageRef), CGImageGetHeight(imageRef)), CGRectMake(0, 0, size.width, size.height)).size : size;
+    if (maintainAspectRatio) {
+        CGFloat width = CGImageGetWidth(imageRef);
+        CGFloat height = CGImageGetHeight(imageRef);
+        CGFloat scale = width > height ? size.width / width : size.height / height;
+        CGSize retval = CGSizeMake(width * scale, height * scale);
+        
+        NSLog(@"size: %f,%f",retval.width,retval.height);
+        
+        return retval;
+    }
+    else {
+        return size;
+    }
 }
 
 bool KLOCGImageHasAlpha(CGImageRef imageRef) {
@@ -41,6 +54,28 @@ CGImageRef KLOCGImageCreateThumbnailWithSizeMaintainingAspectRatio(CGImageRef im
     NSCParameterAssert(!CGSizeEqualToSize(size, CGSizeZero));
     
     CGSize destSize = KLOCGImageThumbnailSizeFromSizeMaintainingAspectRatio(imageRef, size, maintainAspectRatio);
+#if (TARGET_OS_WATCH)
+    CGContextRef contextRef = CGBitmapContextCreate(NULL, destSize.width, destSize.height, CGImageGetBitsPerComponent(imageRef), CGImageGetBytesPerRow(imageRef), CGImageGetColorSpace(imageRef), CGImageGetBitmapInfo(imageRef));
+    
+    if (contextRef == NULL) {
+        return NULL;
+    }
+    
+    CGContextSetInterpolationQuality(contextRef, kCGInterpolationHigh);
+    
+    CGContextDrawImage(contextRef, CGRectMake(0, 0, destSize.width, destSize.height), imageRef);
+    
+    CGImageRef destImageRef = CGBitmapContextCreateImage(contextRef);
+    
+    if (destImageRef == NULL) {
+        CGContextRelease(contextRef);
+        return NULL;
+    }
+    
+    CGContextRelease(contextRef);
+    
+    return destImageRef;
+#else
     vImage_Buffer source;
     vImage_CGImageFormat imageFormat = {(uint32_t)CGImageGetBitsPerComponent(imageRef), (uint32_t)CGImageGetBitsPerPixel(imageRef), CGImageGetColorSpace(imageRef), CGImageGetBitmapInfo(imageRef), 0, NULL, kCGRenderingIntentDefault};
     vImage_Error error = vImageBuffer_InitWithCGImage(&source, &imageFormat, NULL, imageRef, kvImageNoFlags);
@@ -78,8 +113,10 @@ CGImageRef KLOCGImageCreateThumbnailWithSizeMaintainingAspectRatio(CGImageRef im
     }
     
     return destImageRef;
+#endif
 }
 
+#if (!TARGET_OS_WATCH)
 CGImageRef KLOCGImageCreateImageByBlurringImageWithRadius(CGImageRef imageRef, CGFloat radius) {
     if (imageRef == NULL) {
         return NULL;
@@ -328,3 +365,4 @@ CGImageRef KLOCGImageCreateImageByAdjustingSaturationOfImageByDelta(CGImageRef _
     
     return destImageRef;
 }
+#endif

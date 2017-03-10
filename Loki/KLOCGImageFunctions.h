@@ -22,6 +22,7 @@ FOUNDATION_EXPORT bool KLOCGImageHasAlpha(CGImageRef _Nullable imageRef);
 
 FOUNDATION_EXPORT _Nullable CGImageRef KLOCGImageCreateThumbnailWithSizeMaintainingAspectRatio(CGImageRef _Nullable imageRef, CGSize size, bool maintainAspectRatio);
 
+#if (!TARGET_OS_WATCH)
 FOUNDATION_EXPORT _Nullable CGImageRef KLOCGImageCreateImageByBlurringImageWithRadius(CGImageRef _Nullable imageRef, CGFloat radius);
 
 FOUNDATION_EXPORT _Nullable CGImageRef KLOCGImageCreateImageByAdjustingBrightnessOfImageByDelta(CGImageRef _Nullable imageRef, CGFloat delta);
@@ -29,5 +30,6 @@ FOUNDATION_EXPORT _Nullable CGImageRef KLOCGImageCreateImageByAdjustingBrightnes
 FOUNDATION_EXPORT _Nullable CGImageRef KLOCGImageCreateImageByAdjustingContrastOfImageByDelta(CGImageRef _Nullable imageRef, CGFloat delta);
 
 FOUNDATION_EXPORT _Nullable CGImageRef KLOCGImageCreateImageByAdjustingSaturationOfImageByDelta(CGImageRef _Nullable imageRef, CGFloat delta);
+#endif
 
 NS_ASSUME_NONNULL_END
