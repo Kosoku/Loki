@@ -19,9 +19,7 @@
 
 @interface ViewController () <UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @property (weak,nonatomic) IBOutlet UIButton *button;
-@property (weak,nonatomic) IBOutlet UIImageView *imageView1;
-@property (weak,nonatomic) IBOutlet UIImageView *imageView2;
-@property (weak,nonatomic) IBOutlet UIImageView *imageView3;
+@property (strong,nonatomic) IBOutletCollection(UIImageView) NSArray *imageViews;
 @end
 
 @implementation ViewController
@@ -39,19 +37,32 @@
     [picker.presentingViewController dismissViewControllerAnimated:YES completion:^{
         UIImage *image = info[UIImagePickerControllerOriginalImage];
         
-        [self.imageView1 setImage:[image KLO_imageByResizingToSize:self.imageView1.frame.size]];
-        [self.imageView2 setImage:[image KLO_imageByResizingToSize:self.imageView2.frame.size]];
-        [self.imageView3 setImage:[image KLO_imageByResizingToSize:self.imageView3.frame.size]];
+        for (UIImageView *imageView in self.imageViews) {
+            [imageView setImage:[image KLO_imageByResizingToSize:imageView.frame.size]];
+        }
     }];
 }
 
-- (IBAction)_buttonAction:(id)sender {
-    UIImagePickerController *controller = [[UIImagePickerController alloc] init];
+- (IBAction)_buttonAction:(UIButton *)sender {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Photos" message:@"Which one?" preferredStyle:UIAlertControllerStyleActionSheet];
     
-    [controller setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
-    [controller setDelegate:self];
+    void(^continueBlock)(UIImagePickerControllerSourceType) = ^(UIImagePickerControllerSourceType sourceType){
+        UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+        
+        [imagePickerController setSourceType:sourceType];
+        [imagePickerController setDelegate:self];
+        
+        [self presentViewController:imagePickerController animated:YES completion:nil];
+    };
     
-    [self presentViewController:controller animated:YES completion:nil];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"Choose Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        continueBlock(UIImagePickerControllerSourceTypePhotoLibrary);
+    }]];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"Take Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        continueBlock(UIImagePickerControllerSourceTypeCamera);
+    }]];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 @end
