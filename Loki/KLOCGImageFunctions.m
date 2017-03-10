@@ -28,8 +28,6 @@ static CGSize KLOCGImageThumbnailSizeFromSizeMaintainingAspectRatio(CGImageRef i
         CGFloat scale = width > height ? size.width / width : size.height / height;
         CGSize retval = CGSizeMake(width * scale, height * scale);
         
-        NSLog(@"size: %f,%f",retval.width,retval.height);
-        
         return retval;
     }
     else {
