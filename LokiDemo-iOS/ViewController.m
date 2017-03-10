@@ -35,11 +35,17 @@
 }
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
     [picker.presentingViewController dismissViewControllerAnimated:YES completion:^{
-        UIImage *image = info[UIImagePickerControllerOriginalImage];
-        
-        for (UIImageView *imageView in self.imageViews) {
-            [imageView setImage:[image KLO_imageByResizingToSize:imageView.frame.size]];
-        }
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+            UIImage *image = info[UIImagePickerControllerOriginalImage];
+            
+            image = [image KLO_imageByBlurringWithRadius:50.0];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                for (UIImageView *imageView in self.imageViews) {
+                    [imageView setImage:[image KLO_imageByResizingToSize:imageView.frame.size]];
+                }
+            });
+        });
     }];
 }
 

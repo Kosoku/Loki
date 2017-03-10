@@ -39,4 +39,21 @@
     return [UIImage KLO_imageByResizingImage:self toSize:size];
 }
 
++ (UIImage *)KLO_imageByBlurringImage:(UIImage *)image radius:(CGFloat)radius; {
+    CGImageRef imageRef = KLOCGImageCreateImageByBlurringImageWithRadius(image.CGImage, radius * [UIScreen mainScreen].scale);
+    
+    if (imageRef == NULL) {
+        return nil;
+    }
+    
+    UIImage *retval = [[UIImage alloc] initWithCGImage:imageRef scale:image.scale orientation:image.imageOrientation];
+    
+    CGImageRelease(imageRef);
+    
+    return retval;
+}
+- (UIImage *)KLO_imageByBlurringWithRadius:(CGFloat)radius; {
+    return [UIImage KLO_imageByBlurringImage:self radius:radius];
+}
+
 @end

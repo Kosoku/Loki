@@ -39,42 +39,89 @@ CGImageRef KLOCGImageCreateThumbnailWithSizeMaintainingAspectRatio(CGImageRef im
     NSCParameterAssert(!CGSizeEqualToSize(size, CGSizeZero));
     
     CGSize destSize = KLOCGImageThumbnailSizeFromSizeMaintainingAspectRatio(imageRef, size, maintainAspectRatio);
-    CGImageRef sourceImageRef = imageRef;
-    CFDataRef sourceDataRef = CGDataProviderCopyData(CGImageGetDataProvider(sourceImageRef));
-    vImage_Buffer source = {
-        .data = (void *)CFDataGetBytePtr(sourceDataRef),
-        .height = CGImageGetHeight(sourceImageRef),
-        .width = CGImageGetWidth(sourceImageRef),
-        .rowBytes = CGImageGetBytesPerRow(sourceImageRef)
-    };
-    vImage_Buffer destination;
-    vImage_Error error = vImageBuffer_Init(&destination, (vImagePixelCount)destSize.height, (vImagePixelCount)destSize.width, (uint32_t)CGImageGetBitsPerPixel(sourceImageRef), kvImageNoFlags);
+    vImage_Buffer source;
+    vImage_CGImageFormat imageFormat = {(uint32_t)CGImageGetBitsPerComponent(imageRef), (uint32_t)CGImageGetBitsPerPixel(imageRef), CGImageGetColorSpace(imageRef), CGImageGetBitmapInfo(imageRef), 0, NULL, kCGRenderingIntentDefault};
+    vImage_Error error = vImageBuffer_InitWithCGImage(&source, &imageFormat, NULL, imageRef, kvImageNoFlags);
     
     if (error != kvImageNoError) {
-        CFRelease(sourceDataRef);
+        free(source.data);
+        return NULL;
+    }
+    
+    vImage_Buffer destination;
+    error = vImageBuffer_Init(&destination, (vImagePixelCount)destSize.height, (vImagePixelCount)destSize.width, (uint32_t)CGImageGetBitsPerPixel(imageRef), kvImageNoFlags);
+    
+    if (error != kvImageNoError) {
+        free(source.data);
+        free(destination.data);
         return NULL;
     }
     
     error = vImageScale_ARGB8888(&source, &destination, NULL, kvImageHighQualityResampling|kvImageEdgeExtend);
     
     if (error != kvImageNoError) {
-        CFRelease(sourceDataRef);
+        free(source.data);
+        free(destination.data);
         return NULL;
     }
     
-    CFRelease(sourceDataRef);
+    CGImageRef destImageRef = vImageCreateCGImageFromBuffer(&destination, &imageFormat, NULL, NULL, kvImageNoFlags, &error);
     
-    vImage_CGImageFormat format = {
-        .bitsPerComponent = (uint32_t)CGImageGetBitsPerComponent(sourceImageRef),
-        .bitsPerPixel = (uint32_t)CGImageGetBitsPerPixel(sourceImageRef),
-        .colorSpace = NULL,
-        .bitmapInfo = CGImageGetBitmapInfo(sourceImageRef),
-        .version = 0,
-        .decode = NULL,
-        .renderingIntent = kCGRenderingIntentDefault
-    };
-    CGImageRef destImageRef = vImageCreateCGImageFromBuffer(&destination, &format, NULL, NULL, kvImageNoFlags, &error);
+    free(source.data);
+    free(destination.data);
     
+    if (error != kvImageNoError) {
+        CGImageRelease(destImageRef);
+        return NULL;
+    }
+    
+    return destImageRef;
+}
+
+CGImageRef KLOCGImageCreateImageByBlurringImageWithRadius(CGImageRef imageRef, CGFloat radius) {
+    if (imageRef == NULL) {
+        return NULL;
+    }
+    
+    // compute boxSize based on gassian blur radius http://www.w3.org/TR/SVG/filters.html#feGaussianBlurElement
+    uint32_t boxSize = floor(radius * 3.0 * sqrt(2 * M_PI) / 4 + 0.5);
+    
+    // the boxSize must be odd
+    boxSize += (boxSize + 1) % 2;
+    
+    // setup source and destination buffers for accelerate to work on
+    CGSize destSize = CGSizeMake(CGImageGetWidth(imageRef), CGImageGetHeight(imageRef));
+    vImage_Buffer source;
+    vImage_CGImageFormat imageFormat = {(uint32_t)CGImageGetBitsPerComponent(imageRef), (uint32_t)CGImageGetBitsPerPixel(imageRef), CGImageGetColorSpace(imageRef), CGImageGetBitmapInfo(imageRef), 0, NULL, kCGRenderingIntentDefault};
+    vImage_Error error = vImageBuffer_InitWithCGImage(&source, &imageFormat, NULL, imageRef, kvImageNoFlags);
+    
+    if (error != kvImageNoError) {
+        free(source.data);
+        return NULL;
+    }
+    
+    vImage_Buffer destination;
+    error = vImageBuffer_Init(&destination, (vImagePixelCount)destSize.height, (vImagePixelCount)destSize.width, (uint32_t)CGImageGetBitsPerPixel(imageRef), kvImageNoFlags);
+    
+    if (error != kvImageNoError) {
+        free(source.data);
+        free(destination.data);
+        return NULL;
+    }
+    
+    error = vImageBoxConvolve_ARGB8888(&source, &destination, NULL, 0, 0, boxSize, boxSize, NULL, kvImageEdgeExtend);
+    error = vImageBoxConvolve_ARGB8888(&destination, &source, NULL, 0, 0, boxSize, boxSize, NULL, kvImageEdgeExtend);
+    error = vImageBoxConvolve_ARGB8888(&source, &destination, NULL, 0, 0, boxSize, boxSize, NULL, kvImageEdgeExtend);
+    
+    if (error != kvImageNoError) {
+        free(source.data);
+        free(destination.data);
+        return NULL;
+    }
+    
+    CGImageRef destImageRef = vImageCreateCGImageFromBuffer(&destination, &imageFormat, NULL, NULL, kvImageNoFlags, &error);
+    
+    free(source.data);
     free(destination.data);
     
     if (error != kvImageNoError) {
