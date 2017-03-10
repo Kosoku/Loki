@@ -15,7 +15,6 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CoreGraphics.h>
-#import "KLODefines.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
