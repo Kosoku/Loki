@@ -314,6 +314,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		07A549821E7C93EF00A6C4A1 /* Private */ = {
+			isa = PBXGroup;
+			children = (
+				07DB3D0B1E7217010089F7F5 /* KLOCGImageFunctions.h */,
+				07DB3D0C1E7217010089F7F5 /* KLOCGImageFunctions.m */,
+			);
+			path = Private;
+			sourceTree = "<group>";
+		};
 		07DB3CD41E7213B70089F7F5 = {
 			isa = PBXGroup;
 			children = (
@@ -372,8 +381,7 @@
 				07DB3CEC1E7215B60089F7F5 /* UIImage+KLOExtensions.h */,
 				07DB3CED1E7215B60089F7F5 /* NSImage-UIImage+KLOExtensions.m */,
 				07E8EAA71E7250EA001639A2 /* NSImage+KLOExtensions.h */,
-				07DB3D0B1E7217010089F7F5 /* KLOCGImageFunctions.h */,
-				07DB3D0C1E7217010089F7F5 /* KLOCGImageFunctions.m */,
+				07A549821E7C93EF00A6C4A1 /* Private */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -2095,6 +2103,7 @@
 				07E8EAE91E7315D7001639A2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		07E8EB211E7317AC001639A2 /* Build configuration list for PBXNativeTarget "LokiDemo-watchOS Extension" */ = {
 			isa = XCConfigurationList;
@@ -2103,6 +2112,7 @@
 				07E8EB231E7317AC001639A2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		07E8EB251E7317AC001639A2 /* Build configuration list for PBXNativeTarget "LokiDemo-watchOS" */ = {
 			isa = XCConfigurationList;
@@ -2111,6 +2121,7 @@
 				07E8EB271E7317AC001639A2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -37,6 +37,7 @@ Loki is an iOS/macOS/tvOS/watchOS framework for manipulating `UIImage`/`NSImage`
 
   s.source_files = 'Loki/**/*.{h,m}'
   s.exclude_files = 'Loki/Loki-Info.h'
+  s.private_header_files = 'Loki/Private/*.h'
   s.ios.exclude_files = 'Loki/macOS'
   s.osx.exclude_files = 'Loki/iOS'
   s.tvos.exclude_files = 'Loki/macOS'
@@ -50,6 +51,6 @@ Loki is an iOS/macOS/tvOS/watchOS framework for manipulating `UIImage`/`NSImage`
   s.ios.frameworks = 'Foundation', 'UIKit', 'Accelerate'
   s.osx.frameworks = 'Foundation', 'AppKit', 'Accelerate'
   s.tvos.frameworks = 'Foundation', 'UIKit', 'Accelerate'
-  s.ios.frameworks = 'Foundation', 'UIKit'
+  s.watchos.frameworks = 'Foundation', 'UIKit'
   # s.dependency 'AFNetworking', '~> 2.3'
 end
