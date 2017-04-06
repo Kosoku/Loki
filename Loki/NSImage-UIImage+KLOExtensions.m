@@ -80,6 +80,8 @@
 #else
     retval = [image copy];
     
+    [retval setTemplate:NO];
+    
     [retval lockFocus];
     
     [color set];
