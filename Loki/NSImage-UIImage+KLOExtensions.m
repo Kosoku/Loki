@@ -102,7 +102,7 @@
     
     KLOImage *retval;
     
-#if (TARGET_OS_WATCH)
+#if (TARGET_OS_IPHONE)
     UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
     
     [color setFill];
@@ -112,41 +112,16 @@
     
     UIGraphicsEndImageContext();
 #else
-    CIFilter *colorGenerator = [CIFilter filterWithName:@"CIConstantColorGenerator"];
-    CIColor *coreImageColor = [[CIColor alloc] initWithColor:color];
+    retval = [image copy];
     
-    [colorGenerator setValue:coreImageColor forKey:kCIInputColorKey];
+    [retval setTemplate:NO];
     
-    CIFilter *colorFilter = [CIFilter filterWithName:@"CIColorControls"];
+    [retval lockFocus];
     
-    [colorFilter setValue:[colorGenerator valueForKey:kCIOutputImageKey] forKey:kCIInputImageKey];
-    [colorFilter setValue:[NSNumber numberWithFloat:3.0] forKey:kCIInputSaturationKey];
-    [colorFilter setValue:[NSNumber numberWithFloat:0.35] forKey:kCIInputBrightnessKey];
-    [colorFilter setValue:[NSNumber numberWithFloat:1.0] forKey:kCIInputContrastKey];
+    [color set];
+    NSRectFillUsingOperation(NSMakeRect(0, 0, retval.size.width, retval.size.height), NSCompositingOperationSourceAtop);
     
-    CIFilter *monochromeFilter = [CIFilter filterWithName:@"CIColorMonochrome"];
-    CIImage *baseImage = [[CIImage alloc] initWithCGImage:KLOCGImageFromImage(image)];
-    
-    [monochromeFilter setValue:baseImage forKey:kCIInputImageKey];
-    [monochromeFilter setValue:[CIColor colorWithRed:0.75 green:0.75 blue:0.75] forKey:kCIInputColorKey];
-    [monochromeFilter setValue:[NSNumber numberWithFloat:1.0] forKey:kCIInputIntensityKey];
-    
-    CIFilter *compositingFilter = [CIFilter filterWithName:@"CIMultiplyCompositing"];
-    
-    [compositingFilter setValue:[colorFilter valueForKey:kCIOutputImageKey] forKey:kCIInputImageKey];
-    [compositingFilter setValue:[monochromeFilter valueForKey:kCIOutputImageKey] forKey:kCIInputBackgroundImageKey];
-    
-    static CIContext *kContext;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        kContext = [[CIContext alloc] initWithOptions:@{kCIContextCacheIntermediates: @NO}];
-    });
-    
-    CGImageRef outputImageRef = [kContext createCGImage:compositingFilter.outputImage fromRect:compositingFilter.outputImage.extent];
-    
-    retval = KLOImageFromCGImageAndImage(outputImageRef, image);
-    
-    CGImageRelease(outputImageRef);
+    [retval unlockFocus];
 #endif
     
     return retval;
