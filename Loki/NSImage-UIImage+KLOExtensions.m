@@ -22,6 +22,10 @@
 #endif
 #import "KLOCGImageFunctions.h"
 
+#if (!TARGET_OS_WATCH)
+#import <CoreImage/CoreImage.h>
+#endif
+
 #if (TARGET_OS_IPHONE)
 #define KLOImage UIImage
 #define KLOColor UIColor
@@ -48,39 +52,7 @@
 #endif
 }
 
-+ (KLOImage *)KLO_imageByRenderingImage:(KLOImage *)image withColor:(KLOColor *)color {
-    NSParameterAssert(image);
-    NSParameterAssert(color);
-    
-    KLOImage *retval;
-    
-#if (TARGET_OS_IPHONE)
-    UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
-    
-    [color setFill];
-    [[image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] drawAtPoint:CGPointZero blendMode:kCGBlendModeNormal alpha:1.0];
-    
-    retval = [UIGraphicsGetImageFromCurrentImageContext() imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    
-    UIGraphicsEndImageContext();
-#else
-    retval = [image copy];
-    
-    [retval lockFocus];
-    
-    [color set];
-    NSRectFillUsingOperation(NSMakeRect(0, 0, retval.size.width, retval.size.height), NSCompositingOperationSourceAtop);
-    
-    [retval unlockFocus];
-#endif
-    
-    return retval;
-}
-- (KLOImage *)KLO_imageByRenderingWithColor:(KLOColor *)color {
-    return [KLOImage KLO_imageByRenderingImage:self withColor:color];
-}
-
-+ (KLOImage *)KLO_imageByTintingImage:(KLOImage *)image withColor:(KLOColor *)color {
++ (KLOImage *)KLO_imageByHighlightingImage:(KLOImage *)image withColor:(KLOColor *)color; {
     NSParameterAssert(image);
     NSParameterAssert(color);
     
@@ -114,6 +86,65 @@
     NSRectFillUsingOperation(NSMakeRect(0, 0, retval.size.width, retval.size.height), NSCompositingOperationColor);
     
     [retval unlockFocus];
+#endif
+    
+    return retval;
+}
+- (KLOImage *)KLO_imageByHighlightingWithColor:(KLOColor *)color; {
+    return [KLOImage KLO_imageByHighlightingImage:self withColor:color];
+}
+
++ (KLOImage *)KLO_imageByTintingImage:(KLOImage *)image withColor:(KLOColor *)color {
+    NSParameterAssert(image);
+    NSParameterAssert(color);
+    
+    KLOImage *retval;
+    
+#if (TARGET_OS_WATCH)
+    UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
+    
+    [color setFill];
+    [[image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] drawAtPoint:CGPointZero blendMode:kCGBlendModeNormal alpha:1.0];
+    
+    retval = [UIGraphicsGetImageFromCurrentImageContext() imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    
+    UIGraphicsEndImageContext();
+#else
+    CIFilter *colorGenerator = [CIFilter filterWithName:@"CIConstantColorGenerator"];
+    CIColor *coreImageColor = [[CIColor alloc] initWithColor:color];
+    
+    [colorGenerator setValue:coreImageColor forKey:kCIInputColorKey];
+    
+    CIFilter *colorFilter = [CIFilter filterWithName:@"CIColorControls"];
+    
+    [colorFilter setValue:[colorGenerator valueForKey:kCIOutputImageKey] forKey:kCIInputImageKey];
+    [colorFilter setValue:[NSNumber numberWithFloat:3.0] forKey:kCIInputSaturationKey];
+    [colorFilter setValue:[NSNumber numberWithFloat:0.35] forKey:kCIInputBrightnessKey];
+    [colorFilter setValue:[NSNumber numberWithFloat:1.0] forKey:kCIInputContrastKey];
+    
+    CIFilter *monochromeFilter = [CIFilter filterWithName:@"CIColorMonochrome"];
+    CIImage *baseImage = [[CIImage alloc] initWithCGImage:KLOCGImageFromImage(image)];
+    
+    [monochromeFilter setValue:baseImage forKey:kCIInputImageKey];
+    [monochromeFilter setValue:[CIColor colorWithRed:0.75 green:0.75 blue:0.75] forKey:kCIInputColorKey];
+    [monochromeFilter setValue:[NSNumber numberWithFloat:1.0] forKey:kCIInputIntensityKey];
+    
+    CIFilter *compositingFilter = [CIFilter filterWithName:@"CIMultiplyCompositing"];
+    
+    [compositingFilter setValue:[colorFilter valueForKey:kCIOutputImageKey] forKey:kCIInputImageKey];
+    [compositingFilter setValue:[monochromeFilter valueForKey:kCIOutputImageKey] forKey:kCIInputBackgroundImageKey];
+    
+    static CIContext *kContext;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        kContext = [[CIContext alloc] initWithOptions:@{kCIContextCacheIntermediates: @NO}];
+    });
+    
+    CGImageRef outputImageRef = [kContext createCGImage:compositingFilter.outputImage fromRect:compositingFilter.outputImage.extent];
+    
+    retval = KLOImageFromCGImageAndImage(outputImageRef, image);
+    
+    CGImageRelease(outputImageRef);
 #endif
     
     return retval;
@@ -244,5 +275,20 @@
     return [KLOImage KLO_imageByAdjustingSaturationOfImage:self delta:delta];
 }
 #endif
+
+@end
+
+#if (TARGET_OS_IPHONE)
+@implementation UIImage (KLOExtensionsDeprecated)
+#else
+@implementation NSImage (KLOExtensionsDeprecated)
+#endif
+
++ (KLOImage *)KLO_imageByRenderingImage:(KLOImage *)image withColor:(KLOColor *)color {
+    return [KLOImage KLO_imageByTintingImage:image withColor:color];
+}
+- (KLOImage *)KLO_imageByRenderingWithColor:(KLOColor *)color {
+    return [self KLO_imageByTintingWithColor:color];
+}
 
 @end

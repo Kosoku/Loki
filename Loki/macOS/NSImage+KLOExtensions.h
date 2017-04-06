@@ -27,23 +27,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)KLO_hasAlpha;
 
 /**
- Creates and returns a NSImage by rendering _image_ with _color_.
- 
- @param image The NSImage to render as a template
- @param color The UIColor to use when rendering _image_
- @return The rendered template image
- @exception NSException Thrown if _image_ or _color_ are nil
- */
-+ (NSImage *)KLO_imageByRenderingImage:(NSImage *)image withColor:(NSColor *)color;
-/**
- Calls `[NSImage KLO_imageByRenderingImage:self withColor:color]`.
- 
- @param color The UIColor to use when rendering self
- @return The rendered template image
- */
-- (NSImage *)KLO_imageByRenderingWithColor:(NSColor *)color;
-
-/**
  Creates a new image by first drawing the image then drawing a rectangle of color over it.
  
  @param image The original image
@@ -51,12 +34,29 @@ NS_ASSUME_NONNULL_BEGIN
  @return The tinted image
  @exception NSException Thrown if _image_ or _color_ are nil
  */
-+ (NSImage *)KLO_imageByTintingImage:(NSImage *)image withColor:(NSColor *)color;
++ (NSImage *)KLO_imageByHighlightingImage:(NSImage *)image withColor:(NSColor *)color;
 /**
- Calls `[NSImage KLO_imageByTintingImage:self withColor:color]`.
+ Calls `+[NSImage KLO_imageByHighlightingImage:withColor:]`, passing self and _color_ respectively.
  
  @param color The color to overlay on top of the image, it should have some level of opacity
  @return The tinted image
+ */
+- (NSImage *)KLO_imageByHighlightingWithColor:(NSColor *)color;
+
+/**
+ Creates and returns a NSImage by tinting _image_ with _color_.
+ 
+ @param image The NSImage to render as a template
+ @param color The NSColor to use when rendering _image_
+ @return The rendered template image
+ @exception NSException Thrown if _image_ or _color_ are nil
+ */
++ (NSImage *)KLO_imageByTintingImage:(NSImage *)image withColor:(NSColor *)color;
+/**
+ Calls `[NSImage KLO_imageByTingtingImage:self withColor:color]`.
+ 
+ @param color The NSColor to use when rendering self
+ @return The rendered template image
  */
 - (NSImage *)KLO_imageByTintingWithColor:(NSColor *)color;
 
@@ -151,6 +151,27 @@ NS_ASSUME_NONNULL_BEGIN
  @return The image with adjusted saturation
  */
 - (nullable NSImage *)KLO_imageByAdjustingSaturationBy:(CGFloat)delta;
+
+@end
+
+@interface NSImage (KLOExtensionsDeprecated)
+
+/**
+ Creates and returns a NSImage by rendering _image_ with _color_.
+ 
+ @param image The UIImage to render as a template
+ @param color The UIColor to use when rendering _image_
+ @return The rendered template image
+ @exception NSException Thrown if _image_ or _color_ are nil
+ */
++ (NSImage *)KLO_imageByRenderingImage:(NSImage *)image withColor:(NSColor *)color __attribute__((deprecated("use KLO_imageByTintingImage:withColor: instead")));
+/**
+ Calls `[NSImage KLO_imageByRenderingImage:self withColor:color]`.
+ 
+ @param color The NSColor to use when rendering self
+ @return The rendered template image
+ */
+- (NSImage *)KLO_imageByRenderingWithColor:(NSColor *)color __attribute__((deprecated("use KLO_imageTintingWithColor: instead")));
 
 @end
 

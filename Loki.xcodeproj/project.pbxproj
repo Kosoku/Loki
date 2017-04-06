@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		07D166CB1E96D2670073F69A /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07D166CA1E96D2670073F69A /* CoreImage.framework */; };
+		07D166CD1E96D26E0073F69A /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07D166CC1E96D26E0073F69A /* CoreImage.framework */; };
 		07DB3CE51E7214500089F7F5 /* Loki.h in Headers */ = {isa = PBXBuildFile; fileRef = 07DB3CE31E7214500089F7F5 /* Loki.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		07DB3CEE1E7215B60089F7F5 /* UIImage+KLOExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 07DB3CEC1E7215B60089F7F5 /* UIImage+KLOExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		07DB3CEF1E7215B60089F7F5 /* NSImage-UIImage+KLOExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 07DB3CED1E7215B60089F7F5 /* NSImage-UIImage+KLOExtensions.m */; };
@@ -179,6 +181,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		07D166CA1E96D2670073F69A /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/CoreImage.framework; sourceTree = DEVELOPER_DIR; };
+		07D166CC1E96D26E0073F69A /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS10.2.sdk/System/Library/Frameworks/CoreImage.framework; sourceTree = DEVELOPER_DIR; };
 		07DB3CE01E7214500089F7F5 /* Loki.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Loki.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		07DB3CE31E7214500089F7F5 /* Loki.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Loki.h; sourceTree = "<group>"; };
 		07DB3CE41E7214500089F7F5 /* Loki-iOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Loki-iOS-Info.plist"; sourceTree = "<group>"; };
@@ -259,6 +263,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07D166CB1E96D2670073F69A /* CoreImage.framework in Frameworks */,
 				07DB3D1A1E7221E10089F7F5 /* Loki.framework in Frameworks */,
 				07DB3D141E721FFF0089F7F5 /* Accelerate.framework in Frameworks */,
 			);
@@ -291,6 +296,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07D166CD1E96D26E0073F69A /* CoreImage.framework in Frameworks */,
 				07E8EAFA1E731773001639A2 /* Accelerate.framework in Frameworks */,
 				07E8EAD91E727508001639A2 /* Loki.framework in Frameworks */,
 			);
@@ -413,6 +419,8 @@
 		07DB3D121E721FFF0089F7F5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				07D166CC1E96D26E0073F69A /* CoreImage.framework */,
+				07D166CA1E96D2670073F69A /* CoreImage.framework */,
 				07E8EB301E731929001639A2 /* ImageIO.framework */,
 				07E8EB2E1E731858001639A2 /* AVFoundation.framework */,
 				07E8EAFB1E73177B001639A2 /* AVFoundation.framework */,
