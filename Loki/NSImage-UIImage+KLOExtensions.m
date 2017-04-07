@@ -22,10 +22,6 @@
 #endif
 #import "KLOCGImageFunctions.h"
 
-#if (!TARGET_OS_WATCH)
-#import <CoreImage/CoreImage.h>
-#endif
-
 #if (TARGET_OS_IPHONE)
 #define KLOImage UIImage
 #define KLOColor UIColor
