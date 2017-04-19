@@ -83,6 +83,20 @@ NS_ASSUME_NONNULL_BEGIN
  @return The resized image
  */
 - (nullable UIImage *)KLO_imageByResizingToSize:(CGSize)size;
+/**
+ Returns `[UIImage KLO_imageByResizingImage:self toSize:size]` with proper aspect ratio when you only know the width of the target CGSize.
+ 
+ @param width The length target width
+ @return The resized image
+ */
+- (nullable UIImage *)KLO_imageByResizingWithWidth:(CGFloat)width;
+/**
+ Returns `[UIImage KLO_imageByResizingImage:self toSize:size]` with proper aspect ratio when you only know the height of the target CGSize.
+ 
+ @param height The length target height
+ @return The resized image
+ */
+- (nullable UIImage *)KLO_imageByResizingWithHeight:(CGFloat)height;
 
 #if (!TARGET_OS_WATCH)
 /**

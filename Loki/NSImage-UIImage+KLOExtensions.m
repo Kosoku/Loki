@@ -172,6 +172,16 @@
 - (KLOImage *)KLO_imageByResizingToSize:(CGSize)size; {
     return [KLOImage KLO_imageByResizingImage:self toSize:size];
 }
+- (nullable UIImage *)KLO_imageByResizingWithWidth:(CGFloat)width; {
+    CGFloat newHeight = width * (self.size.height/self.size.width);
+    CGSize targetSize = CGSizeMake(width, newHeight);
+    return [KLOImage KLO_imageByResizingImage:self toSize:targetSize];
+}
+- (nullable UIImage *)KLO_imageByResizingWithHeight:(CGFloat)height; {
+    CGFloat newWidth = height * (self.size.width/self.size.height);
+    CGSize targetSize = CGSizeMake(newWidth, height);
+    return [KLOImage KLO_imageByResizingImage:self toSize:targetSize];
+}
 
 #if (!TARGET_OS_WATCH)
 + (KLOImage *)KLO_imageByBlurringImage:(KLOImage *)image radius:(CGFloat)radius; {
