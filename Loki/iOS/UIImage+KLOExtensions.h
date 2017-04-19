@@ -173,7 +173,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param color The UIColor to use when rendering self
  @return The rendered template image
  */
-- (UIImage *)KLO_imageByRenderingWithColor:(UIColor *)color __attribute__((deprecated("use KLO_imageTintingWithColor: instead")));
+- (UIImage *)KLO_imageByRenderingWithColor:(UIColor *)color __attribute__((deprecated("use KLO_imageByTintingWithColor: instead")));
 
 @end
 
