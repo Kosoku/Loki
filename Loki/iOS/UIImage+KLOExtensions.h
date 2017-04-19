@@ -69,6 +69,36 @@ NS_ASSUME_NONNULL_BEGIN
 + (UIImage *)KLO_resizableImageWithColor:(UIColor *)color;
 
 /**
+ Returns `[NSImage KLO_imageByResizingImage:self toSize:size]` with proper aspect ratio when you only know the width of the target CGSize.
+ 
+ @param image The image to resize
+ @param width The length target width
+ @return The resized image
+ */
++ (nullable UIImage *)KLO_imageByResizingImage:(UIImage *)image withWidth:(CGFloat)width;
+/**
+ Returns `[NSImage KLO_imageByResizingImage:self withWidth:width]`.
+ 
+ @param width The width to resize to
+ @return The resized image
+ */
+- (nullable UIImage *)KLO_imageByResizingWithWidth:(CGFloat)width;
+/**
+ Returns `[NSImage KLO_imageByResizingImage:self toSize:size]` with proper aspect ratio when you only know the height of the target CGSize.
+ 
+ @param image The image to resize
+ @param height The length target height
+ @return The resized image
+ */
++ (nullable UIImage *)KLO_imageByResizingImage:(UIImage *)image withHeight:(CGFloat)height;
+/**
+ Returns `[NSImage KLO_imageByResizingImage:self withHeight:height]`.
+ 
+ @param height The height to resize to
+ @return The resized image
+ */
+- (nullable UIImage *)KLO_imageByResizingWithHeight:(CGFloat)height;
+/**
  Creates and returns a UIImage by resizing *image* to *size* while maintaining its aspect ratio.
  
  @param image The UIImage to resize
@@ -83,20 +113,6 @@ NS_ASSUME_NONNULL_BEGIN
  @return The resized image
  */
 - (nullable UIImage *)KLO_imageByResizingToSize:(CGSize)size;
-/**
- Returns `[UIImage KLO_imageByResizingImage:self toSize:size]` with proper aspect ratio when you only know the width of the target CGSize.
- 
- @param width The length target width
- @return The resized image
- */
-- (nullable UIImage *)KLO_imageByResizingWithWidth:(CGFloat)width;
-/**
- Returns `[UIImage KLO_imageByResizingImage:self toSize:size]` with proper aspect ratio when you only know the height of the target CGSize.
- 
- @param height The length target height
- @return The resized image
- */
-- (nullable UIImage *)KLO_imageByResizingWithHeight:(CGFloat)height;
 
 #if (!TARGET_OS_WATCH)
 /**

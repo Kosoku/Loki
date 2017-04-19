@@ -23,11 +23,17 @@
 #import "KLOCGImageFunctions.h"
 
 #if (TARGET_OS_IPHONE)
+#define KLOSize CGSize
+#define KLOSizeMake(w,h) CGSizeMake((w),(h))
+#define CGSizeFromKLOSize(s) (s)
 #define KLOImage UIImage
 #define KLOColor UIColor
 #define KLOCGImageFromImage(theImage) (theImage.CGImage)
 #define KLOImageFromCGImageAndImage(theImageRef,theImage) ([[UIImage alloc] initWithCGImage:theImageRef scale:theImage.scale orientation:theImage.imageOrientation])
 #else
+#define KLOSize NSSize
+#define KLOSizeMake(w,h) NSMakeSize((w),(h))
+#define CGSizeFromKLOSize(s) NSSizeFromCGSize(s)
 #define KLOImage NSImage
 #define KLOColor NSColor
 #define KLOCGImageFromImage(theImage) ([theImage CGImageForProposedRect:NULL context:nil hints:nil])
@@ -156,8 +162,26 @@
     return retval;
 }
 
-+ (KLOImage *)KLO_imageByResizingImage:(KLOImage *)image toSize:(CGSize)size; {
-    CGImageRef imageRef = KLOCGImageCreateThumbnailWithSizeMaintainingAspectRatio(KLOCGImageFromImage(image), size, true);
++ (KLOImage *)KLO_imageByResizingImage:(KLOImage *)image withWidth:(CGFloat)width {
+    CGFloat newHeight = width * (image.size.height / image.size.width);
+    KLOSize targetSize = KLOSizeMake(width, newHeight);
+    
+    return [KLOImage KLO_imageByResizingImage:image toSize:targetSize];
+}
+- (KLOImage *)KLO_imageByResizingWithWidth:(CGFloat)width; {
+    return [KLOImage KLO_imageByResizingImage:self withWidth:width];
+}
++ (KLOImage *)KLO_imageByResizingImage:(KLOImage *)image withHeight:(CGFloat)height {
+    CGFloat newWidth = height * (image.size.width / image.size.height);
+    KLOSize targetSize = KLOSizeMake(newWidth, height);
+    
+    return [KLOImage KLO_imageByResizingImage:image toSize:targetSize];
+}
+- (KLOImage *)KLO_imageByResizingWithHeight:(CGFloat)height; {
+    return [KLOImage KLO_imageByResizingImage:self withHeight:height];
+}
++ (KLOImage *)KLO_imageByResizingImage:(KLOImage *)image toSize:(KLOSize)size; {
+    CGImageRef imageRef = KLOCGImageCreateThumbnailWithSizeMaintainingAspectRatio(KLOCGImageFromImage(image), CGSizeFromKLOSize(size), true);
     
     if (imageRef == NULL) {
         return nil;
@@ -171,16 +195,6 @@
 }
 - (KLOImage *)KLO_imageByResizingToSize:(CGSize)size; {
     return [KLOImage KLO_imageByResizingImage:self toSize:size];
-}
-- (nullable UIImage *)KLO_imageByResizingWithWidth:(CGFloat)width; {
-    CGFloat newHeight = width * (self.size.height/self.size.width);
-    CGSize targetSize = CGSizeMake(width, newHeight);
-    return [KLOImage KLO_imageByResizingImage:self toSize:targetSize];
-}
-- (nullable UIImage *)KLO_imageByResizingWithHeight:(CGFloat)height; {
-    CGFloat newWidth = height * (self.size.width/self.size.height);
-    CGSize targetSize = CGSizeMake(newWidth, height);
-    return [KLOImage KLO_imageByResizingImage:self toSize:targetSize];
 }
 
 #if (!TARGET_OS_WATCH)

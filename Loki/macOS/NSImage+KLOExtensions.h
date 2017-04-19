@@ -69,20 +69,50 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSImage *)KLO_resizableImageWithColor:(NSColor *)color;
 
 /**
+ Returns `[NSImage KLO_imageByResizingImage:self toSize:size]` with proper aspect ratio when you only know the width of the target CGSize.
+ 
+ @param image The image to resize
+ @param width The width to resize to
+ @return The resized image
+ */
++ (nullable NSImage *)KLO_imageByResizingImage:(NSImage *)image withWidth:(CGFloat)width;
+/**
+ Returns `[NSImage KLO_imageByResizingImage:self withWidth:width]`.
+ 
+ @param width The width to resize to
+ @return The resized image
+ */
+- (nullable NSImage *)KLO_imageByResizingWithWidth:(CGFloat)width;
+/**
+ Returns `[NSImage KLO_imageByResizingImage:self toSize:size]` with proper aspect ratio when you only know the height of the target CGSize.
+ 
+ @param image The image to resize
+ @param height The target to resize to
+ @return The resized image
+ */
++ (nullable NSImage *)KLO_imageByResizingImage:(NSImage *)image withHeight:(CGFloat)height;
+/**
+ Returns `[NSImage KLO_imageByResizingImage:self withHeight:height]`.
+ 
+ @param height The height to resize to
+ @return The resized image
+ */
+- (nullable NSImage *)KLO_imageByResizingWithHeight:(CGFloat)height;
+/**
  Creates and returns a NSImage by resizing *image* to *size* while maintaining its aspect ratio.
  
  @param image The NSImage to resize
  @param size The target size
  @return The resized image
  */
-+ (nullable NSImage *)KLO_imageByResizingImage:(NSImage *)image toSize:(CGSize)size;
++ (nullable NSImage *)KLO_imageByResizingImage:(NSImage *)image toSize:(NSSize)size;
 /**
  Returns `[NSImage KLO_imageByResizingImage:self toSize:size]`.
  
  @param size The target size
  @return The resized image
  */
-- (nullable NSImage *)KLO_imageByResizingToSize:(CGSize)size;
+- (nullable NSImage *)KLO_imageByResizingToSize:(NSSize)size;
 
 /**
  Creates a new image by blurring *image* using a box blur.
