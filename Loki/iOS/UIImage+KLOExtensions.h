@@ -196,14 +196,14 @@ NS_ASSUME_NONNULL_BEGIN
  @return The rendered template image
  @exception NSException Thrown if _image_ or _color_ are nil
  */
-+ (UIImage *)KLO_imageByRenderingImage:(UIImage *)image withColor:(UIColor *)color __attribute__((deprecated("use KLO_imageByTintingImage:withColor: instead")));
++ (UIImage *)KLO_imageByRenderingImage:(UIImage *)image withColor:(UIColor *)color __attribute__((deprecated("use KLO_imageByTintingImage:withColor: instead","KLO_imageByTintingImage:withColor:")));
 /**
  Calls `[UIImage KLO_imageByRenderingImage:self withColor:color]`.
  
  @param color The UIColor to use when rendering self
  @return The rendered template image
  */
-- (UIImage *)KLO_imageByRenderingWithColor:(UIColor *)color __attribute__((deprecated("use KLO_imageByTintingWithColor: instead")));
+- (UIImage *)KLO_imageByRenderingWithColor:(UIColor *)color __attribute__((deprecated("use KLO_imageByTintingWithColor: instead","KLO_imageByTintingWithColor:")));
 
 @end
 
