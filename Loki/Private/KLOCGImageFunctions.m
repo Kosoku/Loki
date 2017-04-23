@@ -49,7 +49,7 @@ CGImageRef KLOCGImageCreateThumbnailWithSizeMaintainingAspectRatio(CGImageRef im
         return NULL;
     }
     
-    NSCParameterAssert(!CGSizeEqualToSize(size, CGSizeZero));
+    NSCParameterAssert(size.width > 0 && size.height > 0);
     
     CGSize destSize = KLOCGImageThumbnailSizeFromSizeMaintainingAspectRatio(imageRef, size, maintainAspectRatio);
 #if (TARGET_OS_WATCH)
