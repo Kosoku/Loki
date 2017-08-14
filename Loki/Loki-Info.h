@@ -16,6 +16,6 @@
 #ifndef __LOKI_INFO__
 #define __LOKI_INFO__
 
-#define KLO_BUNDLE_SHORT_VERSION_STRING 0.3.0
+#define KLO_BUNDLE_SHORT_VERSION_STRING 0.4.0
 
 #endif
