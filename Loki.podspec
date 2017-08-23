@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Loki'
-  s.version          = '0.4.0'
+  s.version          = '0.5.0'
   s.summary          = 'Loki is an iOS/macOS/tvOS/watchOS framework for manipulating UIImage/NSImage.'
 
 # This description is used to generate tags and improve search results.
