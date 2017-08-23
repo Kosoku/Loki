@@ -274,18 +274,3 @@
 #endif
 
 @end
-
-#if (TARGET_OS_IPHONE)
-@implementation UIImage (KLOExtensionsDeprecated)
-#else
-@implementation NSImage (KLOExtensionsDeprecated)
-#endif
-
-+ (KLOImage *)KLO_imageByRenderingImage:(KLOImage *)image withColor:(KLOColor *)color {
-    return [KLOImage KLO_imageByTintingImage:image withColor:color];
-}
-- (KLOImage *)KLO_imageByRenderingWithColor:(KLOColor *)color {
-    return [self KLO_imageByTintingWithColor:color];
-}
-
-@end

@@ -186,11 +186,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface UIImage (KLOExtensionsDeprecated)
-
-+ (UIImage *)KLO_imageByRenderingImage:(UIImage *)image withColor:(UIColor *)color __attribute__((deprecated("use KLO_imageByTintingImage:withColor: instead","KLO_imageByTintingImage:withColor:")));
-- (UIImage *)KLO_imageByRenderingWithColor:(UIColor *)color __attribute__((deprecated("use KLO_imageByTintingWithColor: instead","KLO_imageByTintingWithColor:")));
-
-@end
-
 NS_ASSUME_NONNULL_END

@@ -184,25 +184,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface NSImage (KLOExtensionsDeprecated)
-
-/**
- Creates and returns a NSImage by rendering _image_ with _color_.
- 
- @param image The UIImage to render as a template
- @param color The UIColor to use when rendering _image_
- @return The rendered template image
- @exception NSException Thrown if _image_ or _color_ are nil
- */
-+ (NSImage *)KLO_imageByRenderingImage:(NSImage *)image withColor:(NSColor *)color __attribute__((deprecated("use KLO_imageByTintingImage:withColor: instead","KLO_imageByTintingImage:withColor:")));
-/**
- Calls `[NSImage KLO_imageByRenderingImage:self withColor:color]`.
- 
- @param color The NSColor to use when rendering self
- @return The rendered template image
- */
-- (NSImage *)KLO_imageByRenderingWithColor:(NSColor *)color __attribute__((deprecated("use KLO_imageByTintingWithColor: instead","KLO_imageByTintingWithColor:")));
-
-@end
-
 NS_ASSUME_NONNULL_END
