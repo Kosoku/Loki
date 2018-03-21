@@ -108,11 +108,21 @@ NS_ASSUME_NONNULL_BEGIN
 + (nullable UIImage *)KLO_imageByResizingImage:(UIImage *)image toSize:(CGSize)size;
 /**
  Returns `[UIImage KLO_imageByResizingImage:self toSize:size]`.
- 
- @param size The target size
- @return The resized image
  */
 - (nullable UIImage *)KLO_imageByResizingToSize:(CGSize)size;
+/**
+ Creates and returns a UIImage by resizing *image* to *size* and optionally maintaining its aspect ratio.
+ 
+ @param image The UIImage to resize
+ @param size The target size
+ @param maintainAspectRatio Whether to maintain the aspect ratio of the receiver or scale to fill
+ @return The resized image
+ */
++ (nullable UIImage *)KLO_imageByResizingImage:(UIImage *)image toSize:(CGSize)size maintainAspectRatio:(BOOL)maintainAspectRatio;
+/**
+ Returns `[UIImage KLO_imageByResizingImage:self toSize:size maintainAspectRatio:maintainAspectRatio]`.
+ */
+- (nullable UIImage *)KLO_imageByResizingToSize:(CGSize)size maintainAspectRatio:(BOOL)maintainAspectRatio;
 
 #if (!TARGET_OS_WATCH)
 /**

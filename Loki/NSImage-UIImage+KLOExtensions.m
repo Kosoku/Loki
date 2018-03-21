@@ -181,7 +181,13 @@
     return [KLOImage KLO_imageByResizingImage:self withHeight:height];
 }
 + (KLOImage *)KLO_imageByResizingImage:(KLOImage *)image toSize:(KLOSize)size; {
-    CGImageRef imageRef = KLOCGImageCreateThumbnailWithSizeMaintainingAspectRatio(KLOCGImageFromImage(image), CGSizeFromKLOSize(size), true);
+    return [self KLO_imageByResizingImage:image toSize:size maintainAspectRatio:YES];
+}
+- (KLOImage *)KLO_imageByResizingToSize:(CGSize)size; {
+    return [KLOImage KLO_imageByResizingImage:self toSize:size];
+}
++ (KLOImage *)KLO_imageByResizingImage:(KLOImage *)image toSize:(KLOSize)size maintainAspectRatio:(BOOL)maintainAspectRatio; {
+    CGImageRef imageRef = KLOCGImageCreateThumbnailWithSizeMaintainingAspectRatio(KLOCGImageFromImage(image), CGSizeFromKLOSize(size), maintainAspectRatio);
     
     if (imageRef == NULL) {
         return nil;
@@ -193,8 +199,8 @@
     
     return retval;
 }
-- (KLOImage *)KLO_imageByResizingToSize:(CGSize)size; {
-    return [KLOImage KLO_imageByResizingImage:self toSize:size];
+- (KLOImage *)KLO_imageByResizingToSize:(KLOSize)size maintainAspectRatio:(BOOL)maintainAspectRatio; {
+    return [KLOImage KLO_imageByResizingImage:self toSize:size maintainAspectRatio:maintainAspectRatio];
 }
 
 #if (!TARGET_OS_WATCH)

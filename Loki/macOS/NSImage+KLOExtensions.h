@@ -108,11 +108,21 @@ NS_ASSUME_NONNULL_BEGIN
 + (nullable NSImage *)KLO_imageByResizingImage:(NSImage *)image toSize:(NSSize)size;
 /**
  Returns `[NSImage KLO_imageByResizingImage:self toSize:size]`.
- 
- @param size The target size
- @return The resized image
  */
 - (nullable NSImage *)KLO_imageByResizingToSize:(NSSize)size;
+/**
+ Creates and returns a UIImage by resizing *image* to *size* and optionally maintaining its aspect ratio.
+ 
+ @param image The UIImage to resize
+ @param size The target size
+ @param maintainAspectRatio Whether to maintain the aspect ratio of the receiver or scale to fill
+ @return The resized image
+ */
++ (nullable NSImage *)KLO_imageByResizingImage:(NSImage *)image toSize:(NSSize)size maintainAspectRatio:(BOOL)maintainAspectRatio;
+/**
+ Returns `[UIImage KLO_imageByResizingImage:self toSize:size maintainAspectRatio:maintainAspectRatio]`.
+ */
+- (nullable NSImage *)KLO_imageByResizingToSize:(NSSize)size maintainAspectRatio:(BOOL)maintainAspectRatio;
 
 /**
  Creates a new image by blurring *image* using a box blur.
