@@ -20,6 +20,8 @@
 @interface ViewController () <UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @property (weak,nonatomic) IBOutlet UIButton *button;
 @property (strong,nonatomic) IBOutletCollection(UIImageView) NSArray *imageViews;
+
+- (void)_updateWithImage:(UIImage *)image;
 @end
 
 @implementation ViewController
@@ -36,7 +38,7 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
     [picker.presentingViewController dismissViewControllerAnimated:YES completion:^{
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-            UIImage *image = info[UIImagePickerControllerOriginalImage];
+            UIImage *image = info[UIImagePickerControllerEditedImage] ?: info[UIImagePickerControllerOriginalImage];
             
             image = [image KLO_imageByBlurringWithRadius:50.0];
             
@@ -47,6 +49,12 @@
             });
         });
     }];
+}
+
+- (void)_updateWithImage:(UIImage *)image; {
+    for (UIImageView *imageView in self.imageViews) {
+        imageView.image = [image KLO_imageByResizingToSize:imageView.frame.size];
+    }
 }
 
 - (IBAction)_buttonAction:(UIButton *)sender {

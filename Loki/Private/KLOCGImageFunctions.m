@@ -52,8 +52,7 @@ CGImageRef KLOCGImageCreateThumbnailWithSizeMaintainingAspectRatio(CGImageRef im
     NSCParameterAssert(size.width > 0 && size.height > 0);
     
     CGSize destSize = KLOCGImageThumbnailSizeFromSizeMaintainingAspectRatio(imageRef, size, maintainAspectRatio);
-#if (TARGET_OS_WATCH)
-    CGContextRef contextRef = CGBitmapContextCreate(NULL, destSize.width, destSize.height, CGImageGetBitsPerComponent(imageRef), CGImageGetBytesPerRow(imageRef), CGImageGetColorSpace(imageRef), CGImageGetBitmapInfo(imageRef));
+    CGContextRef contextRef = CGBitmapContextCreate(NULL, destSize.width, destSize.height, CGImageGetBitsPerComponent(imageRef), 0, CGImageGetColorSpace(imageRef), CGImageGetBitmapInfo(imageRef));
     
     if (contextRef == NULL) {
         return NULL;
@@ -73,45 +72,6 @@ CGImageRef KLOCGImageCreateThumbnailWithSizeMaintainingAspectRatio(CGImageRef im
     CGContextRelease(contextRef);
     
     return destImageRef;
-#else
-    vImage_Buffer source;
-    vImage_CGImageFormat imageFormat = {(uint32_t)CGImageGetBitsPerComponent(imageRef), (uint32_t)CGImageGetBitsPerPixel(imageRef), CGImageGetColorSpace(imageRef), CGImageGetBitmapInfo(imageRef), 0, NULL, kCGRenderingIntentDefault};
-    vImage_Error error = vImageBuffer_InitWithCGImage(&source, &imageFormat, NULL, imageRef, kvImageNoFlags);
-    
-    if (error != kvImageNoError) {
-        free(source.data);
-        return NULL;
-    }
-    
-    vImage_Buffer destination;
-    error = vImageBuffer_Init(&destination, (vImagePixelCount)destSize.height, (vImagePixelCount)destSize.width, (uint32_t)CGImageGetBitsPerPixel(imageRef), kvImageNoFlags);
-    
-    if (error != kvImageNoError) {
-        free(source.data);
-        free(destination.data);
-        return NULL;
-    }
-    
-    error = vImageScale_ARGB8888(&source, &destination, NULL, kvImageHighQualityResampling|kvImageEdgeExtend);
-    
-    if (error != kvImageNoError) {
-        free(source.data);
-        free(destination.data);
-        return NULL;
-    }
-    
-    CGImageRef destImageRef = vImageCreateCGImageFromBuffer(&destination, &imageFormat, NULL, NULL, kvImageNoFlags, &error);
-    
-    free(source.data);
-    free(destination.data);
-    
-    if (error != kvImageNoError) {
-        CGImageRelease(destImageRef);
-        return NULL;
-    }
-    
-    return destImageRef;
-#endif
 }
 
 #if (!TARGET_OS_WATCH)
