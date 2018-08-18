@@ -18,9 +18,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-FOUNDATION_EXPORT bool KLOCGImageHasAlpha(CGImageRef _Nullable imageRef);
+FOUNDATION_EXPORT CGSize KLOCGImageThumbnailSizeFromSizeMaintainingAspectRatio(CGImageRef _Nullable imageRef, CGSize size, bool maintainAspectRatio);
 
-FOUNDATION_EXPORT _Nullable CGImageRef KLOCGImageCreateThumbnailWithSizeMaintainingAspectRatio(CGImageRef _Nullable imageRef, CGSize size, bool maintainAspectRatio);
+FOUNDATION_EXPORT bool KLOCGImageHasAlpha(CGImageRef _Nullable imageRef);
 
 #if (!TARGET_OS_WATCH)
 FOUNDATION_EXPORT _Nullable CGImageRef KLOCGImageCreateImageByBlurringImageWithRadius(CGImageRef _Nullable imageRef, CGFloat radius);

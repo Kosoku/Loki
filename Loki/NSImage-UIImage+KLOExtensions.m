@@ -187,15 +187,32 @@
     return [KLOImage KLO_imageByResizingImage:self toSize:size];
 }
 + (KLOImage *)KLO_imageByResizingImage:(KLOImage *)image toSize:(KLOSize)size maintainAspectRatio:(BOOL)maintainAspectRatio; {
-    CGImageRef imageRef = KLOCGImageCreateThumbnailWithSizeMaintainingAspectRatio(KLOCGImageFromImage(image), CGSizeFromKLOSize(size), maintainAspectRatio);
+    CGSize destSize = KLOCGImageThumbnailSizeFromSizeMaintainingAspectRatio(KLOCGImageFromImage(image), CGSizeFromKLOSize(size), maintainAspectRatio);
+    KLOImage *retval = nil;
     
-    if (imageRef == NULL) {
-        return nil;
-    }
+#if (TARGET_OS_IPHONE)
+    UIGraphicsBeginImageContextWithOptions(destSize, ![image KLO_hasAlpha], 1.0);
     
-    KLOImage *retval = KLOImageFromCGImageAndImage(imageRef,image);
+    CGContextSetInterpolationQuality(UIGraphicsGetCurrentContext(), kCGInterpolationHigh);
     
-    CGImageRelease(imageRef);
+    [image drawInRect:CGRectMake(0, 0, destSize.width, destSize.height)];
+    
+    retval = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+#else
+    NSImage *temp = [[NSImage alloc] initWithSize:destSize];
+    
+    [temp lockFocus];
+    
+    NSGraphicsContext.currentContext.imageInterpolation = NSImageInterpolationHigh;
+    
+    [image drawInRect:NSMakeRect(0, 0, destSize.width, destSize.height)];
+    
+    [temp unlockFocus];
+    
+    retval = temp;
+#endif
     
     return retval;
 }

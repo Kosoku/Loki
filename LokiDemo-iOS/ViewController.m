@@ -30,6 +30,10 @@
     [super viewDidLoad];
     
     [self.button addTarget:self action:@selector(_buttonAction:) forControlEvents:UIControlEventTouchUpInside];
+    
+    for (UIImageView *imageView in self.imageViews) {
+        imageView.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1];
+    }
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
@@ -72,9 +76,12 @@
     [alertController addAction:[UIAlertAction actionWithTitle:@"Choose Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         continueBlock(UIImagePickerControllerSourceTypePhotoLibrary);
     }]];
-    [alertController addAction:[UIAlertAction actionWithTitle:@"Take Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        continueBlock(UIImagePickerControllerSourceTypeCamera);
-    }]];
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        [alertController addAction:[UIAlertAction actionWithTitle:@"Take Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            continueBlock(UIImagePickerControllerSourceTypeCamera);
+        }]];
+    }
+    [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
     
     [self presentViewController:alertController animated:YES completion:nil];
 }

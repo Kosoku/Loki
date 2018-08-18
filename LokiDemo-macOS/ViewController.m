@@ -46,10 +46,10 @@
     __block NSImage *image = pictureTaker.outputImage;
     
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-        image = [image KLO_imageByBlurringWithRadius:75.0]
+//        image = [image KLO_imageByBlurringWithRadius:75.0];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.imageView setImage:[[image KLO_imageByResizingToSize:self.imageView.frame.size] KLO_imageByTintingWithColor:[[UIColor orangeColor] colorWithAlphaComponent:0.5]]];
+            [self.imageView setImage:[[image KLO_imageByResizingToSize:self.imageView.frame.size] KLO_imageByTintingWithColor:[[NSColor orangeColor] colorWithAlphaComponent:0.5]]];
         });
     });
 }

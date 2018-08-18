@@ -21,7 +21,7 @@
 
 #define KLOBoundedValue(value, min, max) MAX(MIN((value), (max)), (min))
 
-static CGSize KLOCGImageThumbnailSizeFromSizeMaintainingAspectRatio(CGImageRef imageRef, CGSize size, bool maintainAspectRatio) {
+CGSize KLOCGImageThumbnailSizeFromSizeMaintainingAspectRatio(CGImageRef imageRef, CGSize size, bool maintainAspectRatio) {
     if (maintainAspectRatio) {
         CGFloat width = CGImageGetWidth(imageRef);
         CGFloat height = CGImageGetHeight(imageRef);
@@ -42,36 +42,6 @@ bool KLOCGImageHasAlpha(CGImageRef imageRef) {
             alphaInfo == kCGImageAlphaLast ||
             alphaInfo == kCGImageAlphaPremultipliedFirst ||
             alphaInfo == kCGImageAlphaPremultipliedLast);
-}
-
-CGImageRef KLOCGImageCreateThumbnailWithSizeMaintainingAspectRatio(CGImageRef imageRef, CGSize size, bool maintainAspectRatio) {
-    if (imageRef == NULL) {
-        return NULL;
-    }
-    
-    NSCParameterAssert(size.width > 0 && size.height > 0);
-    
-    CGSize destSize = KLOCGImageThumbnailSizeFromSizeMaintainingAspectRatio(imageRef, size, maintainAspectRatio);
-    CGContextRef contextRef = CGBitmapContextCreate(NULL, destSize.width, destSize.height, CGImageGetBitsPerComponent(imageRef), 0, CGImageGetColorSpace(imageRef), CGImageGetBitmapInfo(imageRef));
-    
-    if (contextRef == NULL) {
-        return NULL;
-    }
-    
-    CGContextSetInterpolationQuality(contextRef, kCGInterpolationHigh);
-    
-    CGContextDrawImage(contextRef, CGRectMake(0, 0, destSize.width, destSize.height), imageRef);
-    
-    CGImageRef destImageRef = CGBitmapContextCreateImage(contextRef);
-    
-    if (destImageRef == NULL) {
-        CGContextRelease(contextRef);
-        return NULL;
-    }
-    
-    CGContextRelease(contextRef);
-    
-    return destImageRef;
 }
 
 #if (!TARGET_OS_WATCH)
