@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (nullable UIImage *)KLO_imageWithPDFNamed:(NSString *)PDFName size:(CGSize)size;
 + (nullable UIImage *)KLO_imageWithPDFNamed:(NSString *)PDFName size:(CGSize)size page:(NSUInteger)page;
-+ (nullable UIImage *)KLO_imageWithPDFNamed:(NSString *)PDFName size:(CGSize)size page:(NSUInteger)page options:(KLOPDFOptions)optionss;
++ (nullable UIImage *)KLO_imageWithPDFNamed:(NSString *)PDFName size:(CGSize)size page:(NSUInteger)page options:(KLOPDFOptions)options;
 
 + (nullable UIImage *)KLO_imageWithPDFNamed:(NSString *)PDFName bundle:(NSBundle *)bundle size:(CGSize)size;
 + (nullable UIImage *)KLO_imageWithPDFNamed:(NSString *)PDFName bundle:(NSBundle *)bundle size:(CGSize)size page:(NSUInteger)page;
