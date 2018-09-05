@@ -21,18 +21,47 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (class,assign,nonatomic) KLOPDFOptions KLO_defaultPDFOptions;
 
+#pragma mark Name, Width
++ (nullable UIImage *)KLO_imageWithPDFNamed:(NSString *)PDFName width:(CGFloat)width;
++ (nullable UIImage *)KLO_imageWithPDFNamed:(NSString *)PDFName width:(CGFloat)width page:(NSUInteger)page;
++ (nullable UIImage *)KLO_imageWithPDFNamed:(NSString *)PDFName width:(CGFloat)width page:(NSUInteger)page options:(KLOPDFOptions)options;
+
+#pragma mark Name, Height
++ (nullable UIImage *)KLO_imageWithPDFNamed:(NSString *)PDFName height:(CGFloat)height;
++ (nullable UIImage *)KLO_imageWithPDFNamed:(NSString *)PDFName height:(CGFloat)height page:(NSUInteger)page;
++ (nullable UIImage *)KLO_imageWithPDFNamed:(NSString *)PDFName height:(CGFloat)height page:(NSUInteger)page options:(KLOPDFOptions)options;
+
+#pragma mark Name, Size
 + (nullable UIImage *)KLO_imageWithPDFNamed:(NSString *)PDFName size:(CGSize)size;
 + (nullable UIImage *)KLO_imageWithPDFNamed:(NSString *)PDFName size:(CGSize)size page:(NSUInteger)page;
 + (nullable UIImage *)KLO_imageWithPDFNamed:(NSString *)PDFName size:(CGSize)size page:(NSUInteger)page options:(KLOPDFOptions)options;
 
-+ (nullable UIImage *)KLO_imageWithPDFNamed:(NSString *)PDFName bundle:(NSBundle *)bundle size:(CGSize)size;
-+ (nullable UIImage *)KLO_imageWithPDFNamed:(NSString *)PDFName bundle:(NSBundle *)bundle size:(CGSize)size page:(NSUInteger)page;
-+ (nullable UIImage *)KLO_imageWithPDFNamed:(NSString *)PDFName bundle:(NSBundle *)bundle size:(CGSize)size page:(NSUInteger)page options:(KLOPDFOptions)options;
+#pragma mark Name, Bundle, Width
++ (nullable UIImage *)KLO_imageWithPDFNamed:(NSString *)PDFName bundle:(nullable NSBundle *)bundle width:(CGFloat)width;
++ (nullable UIImage *)KLO_imageWithPDFNamed:(NSString *)PDFName bundle:(nullable NSBundle *)bundle width:(CGFloat)width page:(NSUInteger)page;
++ (nullable UIImage *)KLO_imageWithPDFNamed:(NSString *)PDFName bundle:(nullable NSBundle *)bundle width:(CGFloat)width page:(NSUInteger)page options:(KLOPDFOptions)options;
 
+#pragma mark Name, Bundle, Height
++ (nullable UIImage *)KLO_imageWithPDFNamed:(NSString *)PDFName bundle:(nullable NSBundle *)bundle height:(CGFloat)height;
++ (nullable UIImage *)KLO_imageWithPDFNamed:(NSString *)PDFName bundle:(nullable NSBundle *)bundle height:(CGFloat)height page:(NSUInteger)page;
++ (nullable UIImage *)KLO_imageWithPDFNamed:(NSString *)PDFName bundle:(nullable NSBundle *)bundle height:(CGFloat)height page:(NSUInteger)page options:(KLOPDFOptions)options;
+
+#pragma mark Name, Bundle, Size
++ (nullable UIImage *)KLO_imageWithPDFNamed:(NSString *)PDFName bundle:(nullable NSBundle *)bundle size:(CGSize)size;
++ (nullable UIImage *)KLO_imageWithPDFNamed:(NSString *)PDFName bundle:(nullable NSBundle *)bundle size:(CGSize)size page:(NSUInteger)page;
++ (nullable UIImage *)KLO_imageWithPDFNamed:(NSString *)PDFName bundle:(nullable NSBundle *)bundle size:(CGSize)size page:(NSUInteger)page options:(KLOPDFOptions)options;
+
+#pragma mark URL, Width
++ (nullable UIImage *)KLO_imageWithPDFAtURL:(NSURL *)URL width:(CGFloat)width;
++ (nullable UIImage *)KLO_imageWithPDFAtURL:(NSURL *)URL width:(CGFloat)width page:(NSUInteger)page;
 + (nullable UIImage *)KLO_imageWithPDFAtURL:(NSURL *)URL width:(CGFloat)width page:(NSUInteger)page options:(KLOPDFOptions)options;
 
+#pragma mark URL, Height
++ (nullable UIImage *)KLO_imageWithPDFAtURL:(NSURL *)URL height:(CGFloat)height;
++ (nullable UIImage *)KLO_imageWithPDFAtURL:(NSURL *)URL height:(CGFloat)height page:(NSUInteger)page;
 + (nullable UIImage *)KLO_imageWithPDFAtURL:(NSURL *)URL height:(CGFloat)height page:(NSUInteger)page options:(KLOPDFOptions)options;
 
+#pragma mark URL, Size
 + (nullable UIImage *)KLO_imageWithPDFAtURL:(NSURL *)URL size:(CGSize)size;
 + (nullable UIImage *)KLO_imageWithPDFAtURL:(NSURL *)URL size:(CGSize)size page:(NSUInteger)page;
 + (nullable UIImage *)KLO_imageWithPDFAtURL:(NSURL *)URL size:(CGSize)size page:(NSUInteger)page options:(KLOPDFOptions)options;
