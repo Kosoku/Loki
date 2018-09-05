@@ -29,10 +29,8 @@
 }
 
 - (IBAction)_buttonAction:(UIButton *)sender {
-    NSURL *URL = [NSBundle.mainBundle URLForResource:@"image" withExtension:@"pdf"];
-    
     for (UIImageView *imageView in self.imageViews) {
-        imageView.image = [UIImage KLO_imageWithPDFAtURL:URL size:imageView.bounds.size page:0 options:KLOPDFOptionsAll];
+        imageView.image = [UIImage KLO_imageWithPDFNamed:@"image" size:imageView.bounds.size];
     }
 }
 

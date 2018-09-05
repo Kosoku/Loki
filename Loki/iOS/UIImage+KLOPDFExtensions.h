@@ -15,8 +15,24 @@
 
 #import <Loki/KLODefines.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface UIImage (KLOPDFExtensions)
 
-+ (UIImage *)KLO_imageWithPDFAtURL:(NSURL *)URL size:(CGSize)size page:(NSUInteger)page options:(KLOPDFOptions)options;
+@property (class,assign,nonatomic) KLOPDFOptions KLO_defaultPDFOptions;
+
++ (nullable UIImage *)KLO_imageWithPDFNamed:(NSString *)PDFName size:(CGSize)size;
++ (nullable UIImage *)KLO_imageWithPDFNamed:(NSString *)PDFName size:(CGSize)size page:(NSUInteger)page;
++ (nullable UIImage *)KLO_imageWithPDFNamed:(NSString *)PDFName size:(CGSize)size page:(NSUInteger)page options:(KLOPDFOptions)optionss;
+
++ (nullable UIImage *)KLO_imageWithPDFNamed:(NSString *)PDFName bundle:(NSBundle *)bundle size:(CGSize)size;
++ (nullable UIImage *)KLO_imageWithPDFNamed:(NSString *)PDFName bundle:(NSBundle *)bundle size:(CGSize)size page:(NSUInteger)page;
++ (nullable UIImage *)KLO_imageWithPDFNamed:(NSString *)PDFName bundle:(NSBundle *)bundle size:(CGSize)size page:(NSUInteger)page options:(KLOPDFOptions)options;
+
++ (nullable UIImage *)KLO_imageWithPDFAtURL:(NSURL *)URL size:(CGSize)size;
++ (nullable UIImage *)KLO_imageWithPDFAtURL:(NSURL *)URL size:(CGSize)size page:(NSUInteger)page;
++ (nullable UIImage *)KLO_imageWithPDFAtURL:(NSURL *)URL size:(CGSize)size page:(NSUInteger)page options:(KLOPDFOptions)options;
 
 @end
+
+NS_ASSUME_NONNULL_END
