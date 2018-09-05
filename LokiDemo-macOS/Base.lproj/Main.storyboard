@@ -675,54 +675,94 @@
                         </connections>
                     </window>
                     <connections>
-                        <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>
+                        <segue destination="kWI-bf-vzn" kind="relationship" relationship="window.shadowedContentViewController" id="pSK-2H-kLy"/>
                     </connections>
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="75" y="250"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="hIz-AP-VOD">
+        <!--Tab View Controller-->
+        <scene sceneID="gI3-j9-2V5">
             <objects>
-                <viewController id="XfG-lQ-9wD" customClass="ViewController" sceneMemberID="viewController">
-                    <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="290" height="331"/>
+                <tabViewController selectedTabViewItemIndex="0" id="kWI-bf-vzn" sceneMemberID="viewController">
+                    <tabViewItems>
+                        <tabViewItem identifier="" id="ApU-RY-t7j"/>
+                        <tabViewItem identifier="" id="5md-YC-x4T"/>
+                    </tabViewItems>
+                    <tabView key="tabView" type="noTabsNoBorder" id="uo7-hZ-u3m">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <font key="font" metaFont="message"/>
+                        <connections>
+                            <outlet property="delegate" destination="kWI-bf-vzn" id="VCF-lP-evD"/>
+                        </connections>
+                    </tabView>
+                    <connections>
+                        <outlet property="tabView" destination="uo7-hZ-u3m" id="8Rs-IL-kYe"/>
+                        <segue destination="V5p-3h-hLE" kind="relationship" relationship="tabItems" id="ihS-zM-RZQ"/>
+                        <segue destination="UAw-f6-Q7d" kind="relationship" relationship="tabItems" id="bNZ-f1-CaI"/>
+                    </connections>
+                </tabViewController>
+                <customObject id="Jeb-Cn-8cQ" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="53" y="706"/>
+        </scene>
+        <!--images-->
+        <scene sceneID="kE1-hi-l17">
+            <objects>
+                <viewController title="images" id="V5p-3h-hLE" customClass="ViewController" sceneMemberID="viewController">
+                    <view key="view" id="UbT-7G-MRe">
+                        <rect key="frame" x="0.0" y="0.0" width="520" height="561"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jW2-Mx-cbx">
-                                <rect key="frame" x="91" y="283" width="108" height="32"/>
-                                <buttonCell key="cell" type="push" title="Take Photo" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Cxm-OC-ehg">
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="scd-dn-c6m">
+                                <rect key="frame" x="219" y="513" width="83" height="32"/>
+                                <buttonCell key="cell" type="push" title="Photos" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="EQF-vP-ATZ">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
-                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4j2-26-sBT">
-                                <rect key="frame" x="20" y="20" width="250" height="250"/>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EPl-W3-QO6">
+                                <rect key="frame" x="20" y="20" width="480" height="480"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="250" id="h3e-Hm-Th1"/>
-                                    <constraint firstAttribute="height" constant="250" id="zKG-Fu-d8j"/>
+                                    <constraint firstAttribute="width" constant="480" id="DfD-PD-PL4"/>
+                                    <constraint firstAttribute="height" constant="480" id="xVW-Ln-Fft"/>
                                 </constraints>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" id="79H-ld-xwr"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" id="wX4-Xc-VsR"/>
                             </imageView>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="4j2-26-sBT" secondAttribute="bottom" constant="20" id="ILp-eB-het"/>
-                            <constraint firstAttribute="trailing" secondItem="4j2-26-sBT" secondAttribute="trailing" constant="20" id="Q3I-bk-UjI"/>
-                            <constraint firstItem="4j2-26-sBT" firstAttribute="top" secondItem="jW2-Mx-cbx" secondAttribute="bottom" constant="20" id="VQF-1I-rls"/>
-                            <constraint firstItem="jW2-Mx-cbx" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="eLs-gr-aJg"/>
-                            <constraint firstItem="4j2-26-sBT" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="nNn-th-dus"/>
-                            <constraint firstItem="jW2-Mx-cbx" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="xwS-jM-IUR"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="EPl-W3-QO6" secondAttribute="trailing" constant="20" symbolic="YES" id="1ek-jS-qJB"/>
+                            <constraint firstAttribute="bottom" secondItem="EPl-W3-QO6" secondAttribute="bottom" constant="20" id="2lM-x9-WEp"/>
+                            <constraint firstItem="EPl-W3-QO6" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="UbT-7G-MRe" secondAttribute="leading" constant="20" symbolic="YES" id="3E1-t2-GfM"/>
+                            <constraint firstItem="scd-dn-c6m" firstAttribute="top" secondItem="UbT-7G-MRe" secondAttribute="top" constant="20" id="8mg-GA-Ve9"/>
+                            <constraint firstItem="EPl-W3-QO6" firstAttribute="top" secondItem="scd-dn-c6m" secondAttribute="bottom" constant="20" id="YSf-ml-Li8"/>
+                            <constraint firstItem="EPl-W3-QO6" firstAttribute="centerX" secondItem="UbT-7G-MRe" secondAttribute="centerX" id="dK9-z4-8bT"/>
+                            <constraint firstItem="scd-dn-c6m" firstAttribute="centerX" secondItem="UbT-7G-MRe" secondAttribute="centerX" id="pWy-TP-HAy"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="imageView" destination="4j2-26-sBT" id="Dal-71-nUn"/>
-                        <outlet property="photoButton" destination="jW2-Mx-cbx" id="rmj-Ws-oXx"/>
+                        <outlet property="imageView" destination="EPl-W3-QO6" id="IpL-4C-A2Q"/>
+                        <outlet property="photoButton" destination="scd-dn-c6m" id="KEN-qA-aXX"/>
                     </connections>
                 </viewController>
-                <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <customObject id="B6f-VW-Hpu" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-11" y="865"/>
+            <point key="canvasLocation" x="708" y="447.5"/>
+        </scene>
+        <!--pdfs-->
+        <scene sceneID="a7M-jq-L76">
+            <objects>
+                <viewController title="pdfs" id="UAw-f6-Q7d" sceneMemberID="viewController">
+                    <view key="view" id="3VO-qI-PzF">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="5Qo-2u-Qye" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="699" y="1089"/>
         </scene>
     </scenes>
 </document>

@@ -36,7 +36,6 @@
 - (IBAction)_buttonAction:(id)sender {
     IKPictureTaker *pictureTaker = [IKPictureTaker pictureTaker];
     
-    [pictureTaker setValue:@NO forKey:IKPictureTakerAllowsFileChoosingKey];
     [pictureTaker setValue:@NO forKey:IKPictureTakerAllowsEditingKey];
     
     [pictureTaker beginPictureTakerSheetForWindow:self.view.window withDelegate:self didEndSelector:@selector(_pictureTakerDidEnd:returnCode:contextInfo:) contextInfo:NULL];
@@ -46,10 +45,10 @@
     __block NSImage *image = pictureTaker.outputImage;
     
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-//        image = [image KLO_imageByBlurringWithRadius:75.0];
+        image = [image KLO_imageByBlurringWithRadius:20.0];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.imageView setImage:[[image KLO_imageByResizingToSize:self.imageView.frame.size] KLO_imageByTintingWithColor:[[NSColor orangeColor] colorWithAlphaComponent:0.5]]];
+            [self.imageView setImage:[[image KLO_imageByResizingToSize:self.imageView.frame.size] KLO_imageByTintingWithColor:[[NSColor orangeColor] colorWithAlphaComponent:0.25]]];
         });
     });
 }
