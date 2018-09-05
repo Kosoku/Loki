@@ -17,32 +17,11 @@
 
 #import <Loki/Loki.h>
 
-static CGSize const kImageSize = {.width=50, .height=50};
-static NSInteger const kNumberOfRows = 100;
-
-@interface ImageTableViewCell : UITableViewCell
-@property (strong,nonatomic) UIImageView *PDFImageView;
-@end
-
-@implementation ImageTableViewCell
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    if (!(self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]))
-        return nil;
-    
-    _PDFImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _PDFImageView.translatesAutoresizingMaskIntoConstraints = NO;
-    _PDFImageView.contentMode = UIViewContentModeCenter;
-    [self.contentView addSubview:_PDFImageView];
-    
-    [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[view]->=0-|" options:0 metrics:nil views:@{@"view": _PDFImageView}]];
-    [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[view]-|" options:0 metrics:nil views:@{@"view": _PDFImageView}]];
-    
-    return self;
-}
-@end
-
-@interface PDFViewController () <UITableViewDataSource>
-@property (weak,nonatomic) IBOutlet UITableView *tableView;
+@interface PDFViewController () <UITextFieldDelegate>
+@property (weak,nonatomic) IBOutlet UITextField *widthTextField;
+@property (weak,nonatomic) IBOutlet UITextField *heightTextField;
+@property (weak,nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak,nonatomic) IBOutlet UIImageView *imageView;
 
 @end
 
@@ -55,19 +34,32 @@ static NSInteger const kNumberOfRows = 100;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.tableView registerClass:ImageTableViewCell.class forCellReuseIdentifier:NSStringFromClass(ImageTableViewCell.class)];
-    self.tableView.dataSource = self;
+    self.widthTextField.delegate = self;
+    self.heightTextField.delegate = self;
+}
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self.widthTextField becomeFirstResponder];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return kNumberOfRows;
-}
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    ImageTableViewCell *retval = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(ImageTableViewCell.class) forIndexPath:indexPath];
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    NSInteger width = self.widthTextField.text.integerValue;
+    NSInteger height = self.heightTextField.text.integerValue;
     
-    retval.PDFImageView.image = [UIImage KLO_imageWithPDFNamed:@"image" size:kImageSize];
+    if (width > 0 &&
+        height > 0) {
+        
+        self.imageView.image = [UIImage KLO_imageWithPDFNamed:@"kosoku-logo" size:CGSizeMake(width, height)];
+    }
+    else if (width > 0) {
+        self.imageView.image = [UIImage KLO_imageWithPDFNamed:@"kosoku-logo" width:width];
+    }
+    else if (height > 0) {
+        self.imageView.image = [UIImage KLO_imageWithPDFNamed:@"kosoku-logo" height:height];
+    }
     
-    return retval;
+    return YES;
 }
 
 @end
