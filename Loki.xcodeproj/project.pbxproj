@@ -384,7 +384,6 @@
 			isa = PBXGroup;
 			children = (
 				07DB3CE31E7214500089F7F5 /* Loki.h */,
-				0747CA78213F933700F734F5 /* KLODefines.h */,
 				07DB3CEB1E7215A10089F7F5 /* Source */,
 				07DB3CE91E72147A0089F7F5 /* Supporting Files */,
 			);
@@ -406,6 +405,7 @@
 		07DB3CEB1E7215A10089F7F5 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				0747CA78213F933700F734F5 /* KLODefines.h */,
 				07DB3CEC1E7215B60089F7F5 /* UIImage+KLOExtensions.h */,
 				07E8EAA71E7250EA001639A2 /* NSImage+KLOExtensions.h */,
 				07DB3CED1E7215B60089F7F5 /* NSImage-UIImage+KLOExtensions.m */,
