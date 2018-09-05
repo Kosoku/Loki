@@ -12,13 +12,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PDFViewController">
             <connections>
-                <outlet property="button" destination="fGo-Ta-Hcy" id="Zow-J1-uZK"/>
+                <outlet property="tableView" destination="hBQ-nN-R10" id="COw-fJ-ThB"/>
                 <outlet property="view" destination="iN0-l3-epB" id="BuO-XI-25b"/>
-                <outletCollection property="imageViews" destination="tZf-Om-zSa" id="O9y-Cn-D3D"/>
-                <outletCollection property="imageViews" destination="fey-0D-YxQ" id="1oi-Mv-ORy"/>
-                <outletCollection property="imageViews" destination="mAx-Ve-PlY" id="hkk-O0-oI9"/>
-                <outletCollection property="imageViews" destination="0lR-j1-GdM" id="VGn-cC-7S6"/>
-                <outletCollection property="imageViews" destination="bVD-gz-hKP" id="hMh-gA-ZAz"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -26,65 +21,20 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fGo-Ta-Hcy">
-                    <rect key="frame" x="148" y="44" width="78" height="30"/>
-                    <state key="normal" title="Resize PDF"/>
-                    <connections>
-                        <action selector="_buttonAction:" destination="-1" eventType="touchUpInside" id="mgB-wv-f7G"/>
-                    </connections>
-                </button>
-                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tZf-Om-zSa">
-                    <rect key="frame" x="16" y="82" width="200" height="200"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="200" id="3v8-If-rVc"/>
-                        <constraint firstAttribute="width" constant="200" id="BA1-pH-al6"/>
-                    </constraints>
-                </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fey-0D-YxQ">
-                    <rect key="frame" x="16" y="290" width="150" height="150"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="150" id="AgY-sI-5ED"/>
-                        <constraint firstAttribute="width" constant="150" id="wly-dk-fzi"/>
-                    </constraints>
-                </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mAx-Ve-PlY">
-                    <rect key="frame" x="174" y="290" width="100" height="100"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="100" id="ZH6-fI-Icu"/>
-                        <constraint firstAttribute="width" constant="100" id="d41-xl-1eE"/>
-                    </constraints>
-                </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0lR-j1-GdM">
-                    <rect key="frame" x="176" y="398" width="50" height="50"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="50" id="9Zd-E5-u4x"/>
-                        <constraint firstAttribute="width" constant="50" id="gNk-fu-14V"/>
-                    </constraints>
-                </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bVD-gz-hKP">
-                    <rect key="frame" x="234" y="398" width="25" height="25"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="25" id="5mU-Cj-dKx"/>
-                        <constraint firstAttribute="height" constant="25" id="etb-h7-OJ7"/>
-                    </constraints>
-                </imageView>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hBQ-nN-R10">
+                    <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </tableView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="fey-0D-YxQ" firstAttribute="top" secondItem="tZf-Om-zSa" secondAttribute="bottom" constant="8" id="2Q8-Mp-XOY"/>
-                <constraint firstItem="mAx-Ve-PlY" firstAttribute="top" secondItem="tZf-Om-zSa" secondAttribute="bottom" constant="8" id="4Nv-mk-9SL"/>
-                <constraint firstItem="bVD-gz-hKP" firstAttribute="leading" secondItem="0lR-j1-GdM" secondAttribute="trailing" constant="8" id="6Nz-nB-KOH"/>
-                <constraint firstItem="fey-0D-YxQ" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="AOr-fV-gD9"/>
-                <constraint firstItem="0lR-j1-GdM" firstAttribute="leading" secondItem="fey-0D-YxQ" secondAttribute="trailing" constant="10" id="Dln-iM-2eI"/>
-                <constraint firstItem="tZf-Om-zSa" firstAttribute="top" secondItem="fGo-Ta-Hcy" secondAttribute="bottom" constant="8" id="Fm1-fB-ZDj"/>
-                <constraint firstItem="bVD-gz-hKP" firstAttribute="top" secondItem="mAx-Ve-PlY" secondAttribute="bottom" constant="8" id="II4-cP-Bok"/>
-                <constraint firstItem="fGo-Ta-Hcy" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="24" id="QWy-d1-5us"/>
-                <constraint firstItem="0lR-j1-GdM" firstAttribute="top" secondItem="mAx-Ve-PlY" secondAttribute="bottom" constant="8" id="hKn-yv-Ulr"/>
-                <constraint firstItem="fGo-Ta-Hcy" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="mdi-Nk-cFa"/>
-                <constraint firstItem="tZf-Om-zSa" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="sna-tV-Ibo"/>
-                <constraint firstItem="mAx-Ve-PlY" firstAttribute="leading" secondItem="fey-0D-YxQ" secondAttribute="trailing" constant="8" id="wUc-fl-3f1"/>
+                <constraint firstItem="hBQ-nN-R10" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="PKC-yy-PcU"/>
+                <constraint firstItem="hBQ-nN-R10" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="Qr0-4Q-dgu"/>
+                <constraint firstItem="hBQ-nN-R10" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="aJU-oK-CAo"/>
+                <constraint firstItem="hBQ-nN-R10" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="qNz-Xb-FkA"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="24.5" y="51.5"/>
         </view>
     </objects>
 </document>

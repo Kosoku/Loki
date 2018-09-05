@@ -26,6 +26,7 @@
 
 static inline CGFloat KLOPDFExtensionsMainScreenScale(void) {
     CGFloat retval = 1.0;
+    
 #if (TARGET_OS_WATCH)
     retval = WKInterfaceDevice.currentDevice.screenScale;
 #elif (TARGET_OS_IOS || TARGET_OS_TV)
@@ -37,13 +38,29 @@ static inline CGFloat KLOPDFExtensionsMainScreenScale(void) {
     return retval;
 }
 
+@interface KLOImage (KLOPDFPrivateExtensions)
+
+@property (class,readonly,nonatomic) NSCache *KLO_PDFImageCache;
+
++ (NSString *)KLO_PDFImageKeyForURL:(NSURL *)URL size:(KLOSize)size page:(NSUInteger)page;
++ (KLOImage *)KLO_PDFImageForKey:(NSString *)key;
++ (void)KLO_setPDFImage:(KLOImage *)PDFImage forKey:(NSString *)key;
+
+@end
+
 @implementation KLOImage (KLOPDFExtensions)
 
 static void const *kKLO_defaultPDFOptionsKey = &kKLO_defaultPDFOptionsKey;
 
 @dynamic KLO_defaultPDFOptions;
 + (KLOPDFOptions)KLO_defaultPDFOptions {
-    return [objc_getAssociatedObject(self, kKLO_defaultPDFOptionsKey) unsignedIntegerValue];
+    NSNumber *temp = objc_getAssociatedObject(self, kKLO_defaultPDFOptionsKey);
+    
+    if (temp != nil) {
+        return temp.unsignedIntegerValue;
+    }
+    
+    return KLOPDFOptionsDefault;
 }
 + (void)setKLO_defaultPDFOptions:(KLOPDFOptions)KLO_defaultPDFOptions {
     objc_setAssociatedObject(self, kKLO_defaultPDFOptionsKey, @(KLO_defaultPDFOptions), OBJC_ASSOCIATION_COPY_NONATOMIC);
@@ -84,15 +101,27 @@ static void const *kKLO_defaultPDFOptionsKey = &kKLO_defaultPDFOptionsKey;
     return [self KLO_imageWithPDFAtURL:URL size:size page:page options:[self KLO_defaultPDFOptions]];
 }
 + (KLOImage *)KLO_imageWithPDFAtURL:(NSURL *)URL size:(KLOSize)size page:(NSUInteger)page options:(KLOPDFOptions)options {
+    KLOImage *retval = nil;
     CGPDFDocumentRef PDFDocumentRef = CGPDFDocumentCreateWithURL((__bridge CFURLRef)URL);
     
     // if a pdf cannot be created from the provided url, bail early
     if (PDFDocumentRef == NULL) {
-        return nil;
+        return retval;
     }
     
     // pdf page indexes start at 1, so passing 0 should provide the 1st page
     page = MAX(MIN(page, CGPDFDocumentGetNumberOfPages(PDFDocumentRef)), 1);
+    
+    NSString *key = nil;
+    
+    if (options & KLOPDFOptionsCacheMemory) {
+        key = [self KLO_PDFImageKeyForURL:URL size:size page:page];
+        retval = [self KLO_PDFImageForKey:key];
+        
+        if (retval != nil) {
+            return retval;
+        }
+    }
     
     // get the scale of our main screen, however that is defined
     CGFloat scale = KLOPDFExtensionsMainScreenScale();
@@ -128,10 +157,8 @@ static void const *kKLO_defaultPDFOptionsKey = &kKLO_defaultPDFOptionsKey;
     
     CGImageRef imageRef = CGBitmapContextCreateImage(contextRef);
     
-    KLOImage *retval = nil;
-    
 #if (TARGET_OS_IPHONE)
-    // this initializer tells the image its proper scale and always assume up orientation because we apply the required drawing transform above
+    // this initializer tells the image its proper scale and always assumes up orientation because we apply the required drawing transform above
     retval = [[UIImage alloc] initWithCGImage:imageRef scale:scale orientation:UIImageOrientationUp];
 #else
     // this initializer tells the image it should treat itself as the passed in size, regardless of its scale, which may be different (e.g. 2.0 on a retina laptop)
@@ -143,7 +170,38 @@ static void const *kKLO_defaultPDFOptionsKey = &kKLO_defaultPDFOptionsKey;
     CGContextRelease(contextRef);
     CGColorSpaceRelease(colorSpaceRef);
     
+    if (options & KLOPDFOptionsCacheMemory) {
+        [self KLO_setPDFImage:retval forKey:key];
+    }
+    
     return retval;
+}
+
+@end
+
+@implementation KLOImage (KLOPDFPrivateExtensions)
+
++ (NSCache *)KLO_PDFImageCache {
+    static NSCache *kRetval;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        kRetval = [[NSCache alloc] init];
+    });
+    return kRetval;
+}
+
++ (NSString *)KLO_PDFImageKeyForURL:(NSURL *)URL size:(KLOSize)size page:(NSUInteger)page; {
+#if (TARGET_OS_IPHONE)
+    return [NSString stringWithFormat:@"%@ - %@ - %@",URL.absoluteString,NSStringFromCGSize(size),@(page)];
+#else
+    return [NSString stringWithFormat:@"%@ - %@ - %@",URL.absoluteString,NSStringFromSize(size),@(page)];
+#endif
+}
++ (KLOImage *)KLO_PDFImageForKey:(NSString *)key {
+    return [[self KLO_PDFImageCache] objectForKey:key];
+}
++ (void)KLO_setPDFImage:(KLOImage *)PDFImage forKey:(NSString *)key {
+    [[self KLO_PDFImageCache] setObject:PDFImage forKey:key cost:PDFImage.size.width * PDFImage.size.height];
 }
 
 @end

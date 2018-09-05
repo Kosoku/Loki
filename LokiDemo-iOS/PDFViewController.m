@@ -17,9 +17,33 @@
 
 #import <Loki/Loki.h>
 
-@interface PDFViewController ()
-@property (weak,nonatomic) IBOutlet UIButton *button;
-@property (strong,nonatomic) IBOutletCollection(UIImageView) NSArray *imageViews;
+static CGSize const kImageSize = {.width=50, .height=50};
+static NSInteger const kNumberOfRows = 100;
+
+@interface ImageTableViewCell : UITableViewCell
+@property (strong,nonatomic) UIImageView *PDFImageView;
+@end
+
+@implementation ImageTableViewCell
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    if (!(self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]))
+        return nil;
+    
+    _PDFImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _PDFImageView.translatesAutoresizingMaskIntoConstraints = NO;
+    _PDFImageView.contentMode = UIViewContentModeCenter;
+    [self.contentView addSubview:_PDFImageView];
+    
+    [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[view]->=0-|" options:0 metrics:nil views:@{@"view": _PDFImageView}]];
+    [NSLayoutConstraint activateConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[view]-|" options:0 metrics:nil views:@{@"view": _PDFImageView}]];
+    
+    return self;
+}
+@end
+
+@interface PDFViewController () <UITableViewDataSource>
+@property (weak,nonatomic) IBOutlet UITableView *tableView;
+
 @end
 
 @implementation PDFViewController
@@ -28,10 +52,22 @@
     return @"pdfs";
 }
 
-- (IBAction)_buttonAction:(UIButton *)sender {
-    for (UIImageView *imageView in self.imageViews) {
-        imageView.image = [UIImage KLO_imageWithPDFNamed:@"image" size:imageView.bounds.size];
-    }
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    [self.tableView registerClass:ImageTableViewCell.class forCellReuseIdentifier:NSStringFromClass(ImageTableViewCell.class)];
+    self.tableView.dataSource = self;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return kNumberOfRows;
+}
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    ImageTableViewCell *retval = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(ImageTableViewCell.class) forIndexPath:indexPath];
+    
+    retval.PDFImageView.image = [UIImage KLO_imageWithPDFNamed:@"image" size:kImageSize];
+    
+    return retval;
 }
 
 @end

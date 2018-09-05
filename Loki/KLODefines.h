@@ -41,6 +41,7 @@ typedef NS_OPTIONS(NSUInteger, KLOPDFOptions) {
     KLOPDFOptionsNone = 0,
     KLOPDFOptionsPreserveAspectRatio = 1 << 0,
     KLOPDFOptionsCacheMemory = 1 << 1,
+    KLOPDFOptionsDefault = KLOPDFOptionsPreserveAspectRatio|KLOPDFOptionsCacheMemory,
     KLOPDFOptionsAll = KLOPDFOptionsPreserveAspectRatio|KLOPDFOptionsCacheMemory
 };
 
