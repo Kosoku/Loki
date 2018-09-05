@@ -26,6 +26,10 @@
 
 @implementation ViewController
 
+- (NSString *)title {
+    return @"images";
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     

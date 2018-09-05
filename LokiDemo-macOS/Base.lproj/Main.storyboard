@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14113"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -670,6 +670,9 @@
                         <rect key="contentRect" x="196" y="240" width="480" height="480"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
                         <value key="minSize" type="size" width="480" height="480"/>
+                        <connections>
+                            <outlet property="delegate" destination="B8D-0N-5wS" id="KZY-mw-v0L"/>
+                        </connections>
                     </window>
                     <connections>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>
@@ -684,29 +687,31 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="290" height="331"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jW2-Mx-cbx">
-                                <rect key="frame" x="186" y="432" width="108" height="32"/>
+                                <rect key="frame" x="91" y="283" width="108" height="32"/>
                                 <buttonCell key="cell" type="push" title="Take Photo" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Cxm-OC-ehg">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4j2-26-sBT">
-                                <rect key="frame" x="20" y="35" width="384" height="384"/>
+                                <rect key="frame" x="20" y="20" width="250" height="250"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="384" id="A0m-Ow-yyq"/>
-                                    <constraint firstAttribute="width" constant="384" id="pzV-8C-xcC"/>
+                                    <constraint firstAttribute="width" constant="250" id="h3e-Hm-Th1"/>
+                                    <constraint firstAttribute="height" constant="250" id="zKG-Fu-d8j"/>
                                 </constraints>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" id="79H-ld-xwr"/>
                             </imageView>
                         </subviews>
                         <constraints>
+                            <constraint firstAttribute="bottom" secondItem="4j2-26-sBT" secondAttribute="bottom" constant="20" id="ILp-eB-het"/>
+                            <constraint firstAttribute="trailing" secondItem="4j2-26-sBT" secondAttribute="trailing" constant="20" id="Q3I-bk-UjI"/>
+                            <constraint firstItem="4j2-26-sBT" firstAttribute="top" secondItem="jW2-Mx-cbx" secondAttribute="bottom" constant="20" id="VQF-1I-rls"/>
                             <constraint firstItem="jW2-Mx-cbx" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="eLs-gr-aJg"/>
-                            <constraint firstItem="4j2-26-sBT" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="ef3-aH-hok"/>
-                            <constraint firstItem="4j2-26-sBT" firstAttribute="top" secondItem="jW2-Mx-cbx" secondAttribute="bottom" constant="20" id="loc-an-l9L"/>
+                            <constraint firstItem="4j2-26-sBT" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="nNn-th-dus"/>
                             <constraint firstItem="jW2-Mx-cbx" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="xwS-jM-IUR"/>
                         </constraints>
                     </view>

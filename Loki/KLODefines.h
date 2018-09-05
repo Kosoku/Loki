@@ -1,9 +1,9 @@
 //
-//  AppDelegate.m
-//  LokiDemo-iOS
+//  KLODefines.h
+//  Loki
 //
-//  Created by William Towe on 3/9/17.
-//  Copyright © 2017 Kosoku Interactive, LLC. All rights reserved.
+//  Created by William Towe on 9/5/18.
+//  Copyright © 2018 Kosoku Interactive, LLC. All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 //
@@ -13,27 +13,36 @@
 //
 //  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#import "AppDelegate.h"
-#import "ViewController.h"
-#import "PDFViewController.h"
+#ifndef __KLO_DEFINES__
+#define __KLO_DEFINES__
 
-@interface AppDelegate ()
+#import <TargetConditionals.h>
 
-@end
+#if (TARGET_OS_IPHONE)
+#import <UIKit/UIKit.h>
+#if (TARGET_OS_WATCH)
+#import <WatchKit/WatchKit.h>
+#endif
 
-@implementation AppDelegate
+#define KLOSize CGSize
+#define KLOImage UIImage
+#define KLOColor UIColor
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [self setWindow:[[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds]];
-    
-    UITabBarController *tabBarController = [[UITabBarController alloc] initWithNibName:nil bundle:nil];
-    
-    tabBarController.viewControllers = @[[[ViewController alloc] initWithNibName:nil bundle:nil],
-                                         [[PDFViewController alloc] initWithNibName:nil bundle:nil]];
-    
-    [self.window setRootViewController:tabBarController];
-    [self.window makeKeyAndVisible];
-    return YES;
-}
+#else
+#import <AppKit/AppKit.h>
 
-@end
+#define KLOSize NSSize
+#define KLOImage NSImage
+#define KLOColor NSColor
+
+#endif
+
+typedef NS_OPTIONS(NSUInteger, KLOPDFOptions) {
+    KLOPDFOptionsNone = 0,
+    KLOPDFOptionsPreserveAspectRatio = 1 << 0,
+    KLOPDFOptionsCacheMemory = 1 << 1,
+    KLOPDFOptionsCacheDisk = 1 << 2,
+    KLOPDFOptionsAll = KLOPDFOptionsPreserveAspectRatio|KLOPDFOptionsCacheMemory|KLOPDFOptionsCacheDisk
+};
+
+#endif

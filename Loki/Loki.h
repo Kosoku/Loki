@@ -29,8 +29,12 @@ FOUNDATION_EXPORT const unsigned char LokiVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <Loki/PublicHeader.h>
 
+#import <Loki/KLODefines.h>
+
 #if (TARGET_OS_IPHONE)
 #import <Loki/UIImage+KLOExtensions.h>
+#import <Loki/UIImage+KLOPDFExtensions.h>
 #else
 #import <Loki/NSImage+KLOExtensions.h>
+#import <Loki/NSImage+KLOPDFExtensions.h>
 #endif

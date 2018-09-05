@@ -14,6 +14,7 @@
 //  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #import <TargetConditionals.h>
+#import "KLODefines.h"
 
 #if (TARGET_OS_IPHONE)
 #import "UIImage+KLOExtensions.h"
@@ -23,28 +24,18 @@
 #import "KLOCGImageFunctions.h"
 
 #if (TARGET_OS_IPHONE)
-#define KLOSize CGSize
 #define KLOSizeMake(w,h) CGSizeMake((w),(h))
 #define CGSizeFromKLOSize(s) (s)
-#define KLOImage UIImage
-#define KLOColor UIColor
 #define KLOCGImageFromImage(theImage) (theImage.CGImage)
 #define KLOImageFromCGImageAndImage(theImageRef,theImage) ([[UIImage alloc] initWithCGImage:theImageRef scale:theImage.scale orientation:theImage.imageOrientation])
 #else
-#define KLOSize NSSize
 #define KLOSizeMake(w,h) NSMakeSize((w),(h))
 #define CGSizeFromKLOSize(s) NSSizeFromCGSize(s)
-#define KLOImage NSImage
-#define KLOColor NSColor
 #define KLOCGImageFromImage(theImage) ([theImage CGImageForProposedRect:NULL context:nil hints:nil])
 #define KLOImageFromCGImageAndImage(theImageRef,theImage) ([[NSImage alloc] initWithCGImage:theImageRef size:NSZeroSize])
 #endif
 
-#if (TARGET_OS_IPHONE)
-@implementation UIImage (KLOExtensions)
-#else
-@implementation NSImage (KLOExtensions)
-#endif
+@implementation KLOImage (KLOExtensions)
 
 - (BOOL)KLO_hasAlpha; {
 #if (TARGET_OS_IPHONE)
