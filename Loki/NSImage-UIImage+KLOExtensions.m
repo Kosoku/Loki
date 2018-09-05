@@ -24,12 +24,10 @@
 #import "KLOCGImageFunctions.h"
 
 #if (TARGET_OS_IPHONE)
-#define KLOSizeMake(w,h) CGSizeMake((w),(h))
 #define CGSizeFromKLOSize(s) (s)
 #define KLOCGImageFromImage(theImage) (theImage.CGImage)
 #define KLOImageFromCGImageAndImage(theImageRef,theImage) ([[UIImage alloc] initWithCGImage:theImageRef scale:theImage.scale orientation:theImage.imageOrientation])
 #else
-#define KLOSizeMake(w,h) NSMakeSize((w),(h))
 #define CGSizeFromKLOSize(s) NSSizeFromCGSize(s)
 #define KLOCGImageFromImage(theImage) ([theImage CGImageForProposedRect:NULL context:nil hints:nil])
 #define KLOImageFromCGImageAndImage(theImageRef,theImage) ([[NSImage alloc] initWithCGImage:theImageRef size:NSZeroSize])

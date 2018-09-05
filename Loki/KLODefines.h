@@ -28,12 +28,16 @@
 #define KLOImage UIImage
 #define KLOColor UIColor
 
+#define KLOSizeMake(w,h) CGSizeMake((w),(h))
+
 #else
 #import <AppKit/AppKit.h>
 
 #define KLOSize NSSize
 #define KLOImage NSImage
 #define KLOColor NSColor
+
+#define KLOSizeMake(w,h) NSMakeSize((w),(h))
 
 #endif
 

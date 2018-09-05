@@ -29,6 +29,10 @@ NS_ASSUME_NONNULL_BEGIN
 + (nullable NSImage *)KLO_imageWithPDFNamed:(NSString *)PDFName bundle:(NSBundle *)bundle size:(NSSize)size page:(NSUInteger)page;
 + (nullable NSImage *)KLO_imageWithPDFNamed:(NSString *)PDFName bundle:(NSBundle *)bundle size:(NSSize)size page:(NSUInteger)page options:(KLOPDFOptions)options;
 
++ (nullable NSImage *)KLO_imageWithPDFAtURL:(NSURL *)URL width:(CGFloat)width page:(NSUInteger)page options:(KLOPDFOptions)options;
+
++ (nullable NSImage *)KLO_imageWithPDFAtURL:(NSURL *)URL height:(CGFloat)height page:(NSUInteger)page options:(KLOPDFOptions)options;
+
 + (nullable NSImage *)KLO_imageWithPDFAtURL:(NSURL *)URL size:(NSSize)size;
 + (nullable NSImage *)KLO_imageWithPDFAtURL:(NSURL *)URL size:(NSSize)size page:(NSUInteger)page;
 + (nullable NSImage *)KLO_imageWithPDFAtURL:(NSURL *)URL size:(NSSize)size page:(NSUInteger)page options:(KLOPDFOptions)options;

@@ -24,7 +24,7 @@
 
 #import <objc/runtime.h>
 
-static inline CGFloat KLOPDFExtensionsMainScreenScale(void) {
+static CGFloat KLOPDFExtensionsMainScreenScale(void) {
     CGFloat retval = 1.0;
     
 #if (TARGET_OS_WATCH)
@@ -37,6 +37,29 @@ static inline CGFloat KLOPDFExtensionsMainScreenScale(void) {
     
     return retval;
 }
+static NSUInteger KLOPDFExtensionsBoundedPageForPDFDocumentRefAndPage(CGPDFDocumentRef PDFDocumentRef, NSUInteger page) {
+    // pdf page indexes start at 1, so passing 0 should provide the 1st page
+    return MAX(MIN(page, CGPDFDocumentGetNumberOfPages(PDFDocumentRef)), 1);
+}
+static CGRect KLOPDFExtensionsCropBoxRectForPDFDocumentRefAndPage(CGPDFDocumentRef PDFDocumentRef, NSUInteger page) {
+    CGPDFPageRef PDFPageRef = CGPDFDocumentGetPage(PDFDocumentRef, KLOPDFExtensionsBoundedPageForPDFDocumentRefAndPage(PDFDocumentRef, page));
+    CGRect retval = CGPDFPageGetBoxRect(PDFPageRef, kCGPDFCropBox);
+    int rotation = CGPDFPageGetRotationAngle(PDFPageRef);
+    
+    if (rotation == 90 ||
+        rotation == 270) {
+        
+        CGFloat width = CGRectGetWidth(retval);
+        
+        retval.size.width = retval.size.height;
+        retval.size.height = width;
+    }
+    
+    return retval;
+}
+static CGPDFDocumentRef KLOPDFExtensionsPDFDocumentRefCreateWithURL(NSURL *URL) {
+    return CGPDFDocumentCreateWithURL((__bridge CFURLRef)URL);
+}
 
 @interface KLOImage (KLOPDFPrivateExtensions)
 
@@ -45,6 +68,8 @@ static inline CGFloat KLOPDFExtensionsMainScreenScale(void) {
 + (NSString *)KLO_PDFImageKeyForURL:(NSURL *)URL size:(KLOSize)size page:(NSUInteger)page;
 + (KLOImage *)KLO_PDFImageForKey:(NSString *)key;
 + (void)KLO_setPDFImage:(KLOImage *)PDFImage forKey:(NSString *)key;
+
++ (KLOImage *)KLO_imageWithPDFDocumentRef:(CGPDFDocumentRef)PDFDocumentRef size:(KLOSize)size page:(NSUInteger)page options:(KLOPDFOptions)options;
 
 @end
 
@@ -94,6 +119,36 @@ static void const *kKLO_defaultPDFOptionsKey = &kKLO_defaultPDFOptionsKey;
     return [self KLO_imageWithPDFAtURL:URL size:size page:page options:options];
 }
 
++ (KLOImage *)KLO_imageWithPDFAtURL:(NSURL *)URL width:(CGFloat)width page:(NSUInteger)page options:(KLOPDFOptions)options; {
+    CGPDFDocumentRef PDFDocumentRef = KLOPDFExtensionsPDFDocumentRefCreateWithURL(URL);
+    
+    // if a pdf cannot be created from the provided url, bail early
+    if (PDFDocumentRef == NULL) {
+        return nil;
+    }
+    
+    CGRect cropBoxRect = KLOPDFExtensionsCropBoxRectForPDFDocumentRefAndPage(PDFDocumentRef, page);
+    CGFloat aspectRatio = CGRectGetWidth(cropBoxRect) / CGRectGetHeight(cropBoxRect);
+    KLOSize size = KLOSizeMake(width, ceil(width / aspectRatio));
+    
+    return [self KLO_imageWithPDFDocumentRef:PDFDocumentRef size:size page:page options:options];
+}
+
++ (KLOImage *)KLO_imageWithPDFAtURL:(NSURL *)URL height:(CGFloat)height page:(NSUInteger)page options:(KLOPDFOptions)options; {
+    CGPDFDocumentRef PDFDocumentRef = KLOPDFExtensionsPDFDocumentRefCreateWithURL(URL);
+    
+    // if a pdf cannot be created from the provided url, bail early
+    if (PDFDocumentRef == NULL) {
+        return nil;
+    }
+    
+    CGRect cropBoxRect = KLOPDFExtensionsCropBoxRectForPDFDocumentRefAndPage(PDFDocumentRef, page);
+    CGFloat aspectRatio = CGRectGetWidth(cropBoxRect) / CGRectGetHeight(cropBoxRect);
+    KLOSize size = KLOSizeMake(ceil(height * aspectRatio), height);
+    
+    return [self KLO_imageWithPDFDocumentRef:PDFDocumentRef size:size page:page options:options];
+}
+
 + (KLOImage *)KLO_imageWithPDFAtURL:(NSURL *)URL size:(KLOSize)size; {
     return [self KLO_imageWithPDFAtURL:URL size:size page:0 options:[self KLO_defaultPDFOptions]];
 }
@@ -101,16 +156,53 @@ static void const *kKLO_defaultPDFOptionsKey = &kKLO_defaultPDFOptionsKey;
     return [self KLO_imageWithPDFAtURL:URL size:size page:page options:[self KLO_defaultPDFOptions]];
 }
 + (KLOImage *)KLO_imageWithPDFAtURL:(NSURL *)URL size:(KLOSize)size page:(NSUInteger)page options:(KLOPDFOptions)options {
-    KLOImage *retval = nil;
-    CGPDFDocumentRef PDFDocumentRef = CGPDFDocumentCreateWithURL((__bridge CFURLRef)URL);
+    CGPDFDocumentRef PDFDocumentRef = KLOPDFExtensionsPDFDocumentRefCreateWithURL(URL);
     
     // if a pdf cannot be created from the provided url, bail early
+    if (PDFDocumentRef == NULL) {
+        return nil;
+    }
+    
+    return [self KLO_imageWithPDFDocumentRef:PDFDocumentRef size:size page:page options:options];
+}
+
+@end
+
+@implementation KLOImage (KLOPDFPrivateExtensions)
+
++ (NSCache *)KLO_PDFImageCache {
+    static NSCache *kRetval;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        kRetval = [[NSCache alloc] init];
+    });
+    return kRetval;
+}
+
++ (NSString *)KLO_PDFImageKeyForURL:(NSURL *)URL size:(KLOSize)size page:(NSUInteger)page; {
+#if (TARGET_OS_IPHONE)
+    return [NSString stringWithFormat:@"%@ - %@ - %@",URL.absoluteString,NSStringFromCGSize(size),@(page)];
+#else
+    return [NSString stringWithFormat:@"%@ - %@ - %@",URL.absoluteString,NSStringFromSize(size),@(page)];
+#endif
+}
++ (KLOImage *)KLO_PDFImageForKey:(NSString *)key {
+    return [[self KLO_PDFImageCache] objectForKey:key];
+}
++ (void)KLO_setPDFImage:(KLOImage *)PDFImage forKey:(NSString *)key {
+    [[self KLO_PDFImageCache] setObject:PDFImage forKey:key cost:PDFImage.size.width * PDFImage.size.height];
+}
+
++ (KLOImage *)KLO_imageWithPDFDocumentRef:(CGPDFDocumentRef)PDFDocumentRef size:(KLOSize)size page:(NSUInteger)page options:(KLOPDFOptions)options; {
+    KLOImage *retval = nil;
+    
+    // if the document ref is NULL, bail early
     if (PDFDocumentRef == NULL) {
         return retval;
     }
     
-    // pdf page indexes start at 1, so passing 0 should provide the 1st page
-    page = MAX(MIN(page, CGPDFDocumentGetNumberOfPages(PDFDocumentRef)), 1);
+    // ensure the page index is safe
+    page = KLOPDFExtensionsBoundedPageForPDFDocumentRefAndPage(PDFDocumentRef, page);
     
     NSString *key = nil;
     
@@ -130,7 +222,7 @@ static void const *kKLO_defaultPDFOptionsKey = &kKLO_defaultPDFOptionsKey;
     CGContextRef contextRef = CGBitmapContextCreate(NULL, size.width * scale, size.height * scale, 8, 0, colorSpaceRef, kCGBitmapByteOrderDefault|kCGImageAlphaPremultipliedFirst);
     // set to high, this matters more if we are scaling up
     CGContextSetInterpolationQuality(contextRef, kCGInterpolationHigh);
-    // scale up the context by our scale factor
+    // scale the context by our scale factor
     CGContextScaleCTM(contextRef, scale, scale);
     
     CGPDFPageRef PDFPageRef = CGPDFDocumentGetPage(PDFDocumentRef, page);
@@ -175,33 +267,6 @@ static void const *kKLO_defaultPDFOptionsKey = &kKLO_defaultPDFOptionsKey;
     }
     
     return retval;
-}
-
-@end
-
-@implementation KLOImage (KLOPDFPrivateExtensions)
-
-+ (NSCache *)KLO_PDFImageCache {
-    static NSCache *kRetval;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        kRetval = [[NSCache alloc] init];
-    });
-    return kRetval;
-}
-
-+ (NSString *)KLO_PDFImageKeyForURL:(NSURL *)URL size:(KLOSize)size page:(NSUInteger)page; {
-#if (TARGET_OS_IPHONE)
-    return [NSString stringWithFormat:@"%@ - %@ - %@",URL.absoluteString,NSStringFromCGSize(size),@(page)];
-#else
-    return [NSString stringWithFormat:@"%@ - %@ - %@",URL.absoluteString,NSStringFromSize(size),@(page)];
-#endif
-}
-+ (KLOImage *)KLO_PDFImageForKey:(NSString *)key {
-    return [[self KLO_PDFImageCache] objectForKey:key];
-}
-+ (void)KLO_setPDFImage:(KLOImage *)PDFImage forKey:(NSString *)key {
-    [[self KLO_PDFImageCache] setObject:PDFImage forKey:key cost:PDFImage.size.width * PDFImage.size.height];
 }
 
 @end
