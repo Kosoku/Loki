@@ -41,11 +41,29 @@
 
 #endif
 
+/**
+ Mask describing possible options for PDF image creation.
+ */
 typedef NS_OPTIONS(NSUInteger, KLOPDFOptions) {
+    /**
+     No options.
+     */
     KLOPDFOptionsNone = 0,
+    /**
+     Preserve the aspect ratio of the PDF when drawing.
+     */
     KLOPDFOptionsPreserveAspectRatio = 1 << 0,
+    /**
+     Cache the drawn PDF image in memory, subsquent requests will return the cached image.
+     */
     KLOPDFOptionsCacheMemory = 1 << 1,
+    /**
+     The default options. These are used unless custom options are passed or set globally using the KLO_defaultPDFOptions method.
+     */
     KLOPDFOptionsDefault = KLOPDFOptionsPreserveAspectRatio|KLOPDFOptionsCacheMemory,
+    /**
+     Convenience for all options.
+     */
     KLOPDFOptionsAll = KLOPDFOptionsPreserveAspectRatio|KLOPDFOptionsCacheMemory
 };
 
