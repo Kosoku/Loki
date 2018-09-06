@@ -103,7 +103,7 @@ static void const *kKLO_defaultPDFOptionsKey = &kKLO_defaultPDFOptionsKey;
 + (void)setKLO_defaultPDFOptions:(KLOPDFOptions)KLO_defaultPDFOptions {
     objc_setAssociatedObject(self, kKLO_defaultPDFOptionsKey, @(KLO_defaultPDFOptions), OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
-#pragma mark -
+#pragma mark Name, Width
 + (KLOImage *)KLO_imageWithPDFNamed:(NSString *)PDFName width:(CGFloat)width; {
     return [self KLO_imageWithPDFNamed:PDFName width:width page:0 options:[self KLO_defaultPDFOptions]];
 }
@@ -113,7 +113,7 @@ static void const *kKLO_defaultPDFOptionsKey = &kKLO_defaultPDFOptionsKey;
 + (KLOImage *)KLO_imageWithPDFNamed:(NSString *)PDFName width:(CGFloat)width page:(NSUInteger)page options:(KLOPDFOptions)options; {
     return [self KLO_imageWithPDFNamed:PDFName bundle:nil width:width page:page options:options];
 }
-#pragma mark -
+#pragma mark Name, Height
 + (KLOImage *)KLO_imageWithPDFNamed:(NSString *)PDFName height:(CGFloat)height; {
     return [self KLO_imageWithPDFNamed:PDFName height:height page:0 options:[self KLO_defaultPDFOptions]];
 }
@@ -123,7 +123,7 @@ static void const *kKLO_defaultPDFOptionsKey = &kKLO_defaultPDFOptionsKey;
 + (KLOImage *)KLO_imageWithPDFNamed:(NSString *)PDFName height:(CGFloat)height page:(NSUInteger)page options:(KLOPDFOptions)options; {
     return [self KLO_imageWithPDFNamed:PDFName bundle:nil height:height page:page options:options];
 }
-#pragma mark -
+#pragma mark Name, Size
 + (KLOImage *)KLO_imageWithPDFNamed:(NSString *)PDFName size:(KLOSize)size {
     return [self KLO_imageWithPDFNamed:PDFName bundle:nil size:size page:0 options:[self KLO_defaultPDFOptions]];
 }
@@ -133,7 +133,7 @@ static void const *kKLO_defaultPDFOptionsKey = &kKLO_defaultPDFOptionsKey;
 + (KLOImage *)KLO_imageWithPDFNamed:(NSString *)PDFName size:(KLOSize)size page:(NSUInteger)page options:(KLOPDFOptions)options {
     return [self KLO_imageWithPDFNamed:PDFName bundle:nil size:size page:page options:options];
 }
-#pragma mark -
+#pragma mark Name, Bundle, Width
 + (KLOImage *)KLO_imageWithPDFNamed:(NSString *)PDFName bundle:(NSBundle *)bundle width:(CGFloat)width; {
     return [self KLO_imageWithPDFNamed:PDFName bundle:bundle width:width page:0 options:[self KLO_defaultPDFOptions]];
 }
@@ -145,7 +145,7 @@ static void const *kKLO_defaultPDFOptionsKey = &kKLO_defaultPDFOptionsKey;
     
     return [self KLO_imageWithPDFAtURL:URL width:width page:page options:options];
 }
-#pragma mark -
+#pragma mark Name, Bundle, Height
 + (KLOImage *)KLO_imageWithPDFNamed:(NSString *)PDFName bundle:(NSBundle *)bundle height:(CGFloat)height; {
     return [self KLO_imageWithPDFNamed:PDFName bundle:bundle height:height page:0 options:[self KLO_defaultPDFOptions]];
 }
@@ -157,7 +157,7 @@ static void const *kKLO_defaultPDFOptionsKey = &kKLO_defaultPDFOptionsKey;
     
     return [self KLO_imageWithPDFAtURL:URL height:height page:page options:options];
 }
-#pragma mark -
+#pragma mark Name, Bundle, Size
 + (KLOImage *)KLO_imageWithPDFNamed:(NSString *)PDFName bundle:(NSBundle *)bundle size:(KLOSize)size; {
     return [self KLO_imageWithPDFNamed:PDFName bundle:bundle size:size page:0 options:[self KLO_defaultPDFOptions]];
 }
@@ -169,7 +169,7 @@ static void const *kKLO_defaultPDFOptionsKey = &kKLO_defaultPDFOptionsKey;
     
     return [self KLO_imageWithPDFAtURL:URL size:size page:page options:options];
 }
-#pragma mark -
+#pragma mark URL, Width
 + (KLOImage *)KLO_imageWithPDFAtURL:(NSURL *)URL width:(CGFloat)width; {
     return [self KLO_imageWithPDFAtURL:URL width:width page:0 options:[self KLO_defaultPDFOptions]];
 }
@@ -190,7 +190,7 @@ static void const *kKLO_defaultPDFOptionsKey = &kKLO_defaultPDFOptionsKey;
     
     return [self KLO_imageWithPDFDocumentRef:PDFDocumentRef URL:URL size:size page:page options:options];
 }
-#pragma mark -
+#pragma mark URL, Height
 + (KLOImage *)KLO_imageWithPDFAtURL:(NSURL *)URL height:(CGFloat)height; {
     return [self KLO_imageWithPDFAtURL:URL height:height page:0 options:[self KLO_defaultPDFOptions]];
 }
@@ -211,7 +211,7 @@ static void const *kKLO_defaultPDFOptionsKey = &kKLO_defaultPDFOptionsKey;
     
     return [self KLO_imageWithPDFDocumentRef:PDFDocumentRef URL:URL size:size page:page options:options];
 }
-#pragma mark -
+#pragma mark URL, Size
 + (KLOImage *)KLO_imageWithPDFAtURL:(NSURL *)URL size:(KLOSize)size; {
     return [self KLO_imageWithPDFAtURL:URL size:size page:0 options:[self KLO_defaultPDFOptions]];
 }
