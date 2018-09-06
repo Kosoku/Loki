@@ -7,6 +7,8 @@
 
 *Loki* is an iOS/macOS/tvOS/watchOS framework for manipulating `UIImage`/`NSImage`. Methods to resize, tint, highlight, blur, and adjust contrast, brightness or saturation are provided on iOS/macOS/tvOS. A subset of the methods are available on watchOS because of their reliance on the `Accelerate` framework.
 
+Additional methods are provided to render images from PDF source documents, given a specific width, height, or size, provided the PDF name, bundle or URL.
+
 ### Installation
 
 You can install *Loki* using [cocoapods](https://cocoapods.org/), [Carthage](https://github.com/Carthage/Carthage), or as a framework.
@@ -16,3 +18,64 @@ You can install *Loki* using [cocoapods](https://cocoapods.org/), [Carthage](htt
 Apple:
 
 - `Accelerate`, `iOS`, `macOS`, and `tvOS`
+
+### Examples
+
+Highlight an image:
+
+```objc
+// assume image exists
+UIImage *image = ...;
+
+// the image will have a partially transparent orange tint applied over it
+image = [image KLO_imageByHighlightingWithColor:[UIColor.orangeColor colorWithAlphaComponent:0.25]];
+```
+
+Tint an image:
+
+```objc
+// assume image exists
+UIImage *image = ...;
+
+// the image will have its opaque pixels colored orange
+image = [image KLO_imageByTintingWithColor:UIColor.orangeColor];
+```
+
+Resize an image:
+
+```objc
+// assume image exists
+UIImage *image = ...;
+
+// the image will be resized to the provided size and its aspect ratio will be maintained
+image = [image KLO_imageByResizingToSize:CGSizeMake(25, 25) maintainAspectRatio:YES];
+```
+
+Blur an image:
+
+```objc
+// assume image exists
+UIImage *image = ...;
+
+// the image will be blurred using a box blur with the provided radius
+image = [image KLO_imageByBlurringWithRadius:25.0];
+```
+
+Generate PDF images:
+
+```objc
+// image with the provided name in the main bundle scaled to the provided width and automatically determined height
+UIImage *image = [UIImage KLO_imageWithPDFNamed:@"image" width:100];
+```
+
+```objc
+// image with the provided name in the main bundle scaled to the provided height and automatically determined width
+UIImage *image = [UIImage KLO_imageWithPDFNamed:@"image" height:100];
+```
+
+```objc
+// image with the provided name in the main bundle scaled to the provided size
+UIImage *image = [UIImage KLO_imageWithPDFNamed:@"image" size:CGSizeMake(25, 25)];
+```
+
+There are numerous other method PDF related methods. See *UIImage+KLOPDFExtensions.h* and *NSImage+KLOPDFExtensions.h* for full method listing.
