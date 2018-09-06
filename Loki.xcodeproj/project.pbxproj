@@ -24,6 +24,7 @@
 		0747CA95214077E000F734F5 /* kosoku-logo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 0747CA94214077E000F734F5 /* kosoku-logo.pdf */; };
 		0747CA96214077E000F734F5 /* kosoku-logo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 0747CA94214077E000F734F5 /* kosoku-logo.pdf */; };
 		0747CA97214077E000F734F5 /* kosoku-logo.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 0747CA94214077E000F734F5 /* kosoku-logo.pdf */; };
+		079D7A7621409BA400F11A8E /* PDFViewControllerMacOS.m in Sources */ = {isa = PBXBuildFile; fileRef = 079D7A7521409BA400F11A8E /* PDFViewControllerMacOS.m */; };
 		07DB3CE51E7214500089F7F5 /* Loki.h in Headers */ = {isa = PBXBuildFile; fileRef = 07DB3CE31E7214500089F7F5 /* Loki.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		07DB3CEE1E7215B60089F7F5 /* UIImage+KLOExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 07DB3CEC1E7215B60089F7F5 /* UIImage+KLOExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		07DB3CEF1E7215B60089F7F5 /* NSImage-UIImage+KLOExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 07DB3CED1E7215B60089F7F5 /* NSImage-UIImage+KLOExtensions.m */; };
@@ -204,6 +205,8 @@
 		0747CA8F213FA65B00F734F5 /* PDFViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PDFViewController.m; sourceTree = "<group>"; };
 		0747CA92213FA77600F734F5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PDFViewController.xib; sourceTree = "<group>"; };
 		0747CA94214077E000F734F5 /* kosoku-logo.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "kosoku-logo.pdf"; sourceTree = "<group>"; };
+		079D7A7421409BA400F11A8E /* PDFViewControllerMacOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PDFViewControllerMacOS.h; sourceTree = "<group>"; };
+		079D7A7521409BA400F11A8E /* PDFViewControllerMacOS.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PDFViewControllerMacOS.m; sourceTree = "<group>"; };
 		07D166CA1E96D2670073F69A /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/CoreImage.framework; sourceTree = DEVELOPER_DIR; };
 		07D166CC1E96D26E0073F69A /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS10.2.sdk/System/Library/Frameworks/CoreImage.framework; sourceTree = DEVELOPER_DIR; };
 		07DB3CE01E7214500089F7F5 /* Loki.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Loki.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -470,6 +473,8 @@
 				07E8EA931E724A7D001639A2 /* AppDelegate.m */,
 				07E8EA981E724A7D001639A2 /* ViewController.h */,
 				07E8EA991E724A7D001639A2 /* ViewController.m */,
+				079D7A7421409BA400F11A8E /* PDFViewControllerMacOS.h */,
+				079D7A7521409BA400F11A8E /* PDFViewControllerMacOS.m */,
 				07E8EA9B1E724A7D001639A2 /* Assets.xcassets */,
 				07E8EA9D1E724A7D001639A2 /* Main.storyboard */,
 				07E8EAA01E724A7D001639A2 /* Info.plist */,
@@ -1022,6 +1027,7 @@
 				07E8EA9A1E724A7D001639A2 /* ViewController.m in Sources */,
 				07E8EA971E724A7D001639A2 /* main.m in Sources */,
 				07E8EA941E724A7D001639A2 /* AppDelegate.m in Sources */,
+				079D7A7621409BA400F11A8E /* PDFViewControllerMacOS.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
