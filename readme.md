@@ -79,3 +79,7 @@ UIImage *image = [UIImage KLO_imageWithPDFNamed:@"image" size:CGSizeMake(25, 25)
 ```
 
 There are numerous other method PDF related methods. See *UIImage+KLOPDFExtensions.h* and *NSImage+KLOPDFExtensions.h* for full method listing.
+
+### Demo
+
+The various demo targets in the workspace provide further examples of the image and PDF related methods in action.
