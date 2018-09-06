@@ -54,7 +54,7 @@ typedef NS_OPTIONS(NSUInteger, KLOPDFOptions) {
      */
     KLOPDFOptionsPreserveAspectRatio = 1 << 0,
     /**
-     Cache the drawn PDF image in memory, subsquent requests will return the cached image.
+     Cache the drawn PDF image in memory, subsequent requests will return the cached image.
      */
     KLOPDFOptionsCacheMemory = 1 << 1,
     /**
