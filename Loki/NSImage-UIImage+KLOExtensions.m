@@ -180,7 +180,7 @@
     KLOImage *retval = nil;
     
 #if (TARGET_OS_IPHONE)
-    UIGraphicsBeginImageContextWithOptions(destSize, ![image KLO_hasAlpha], 1.0);
+    UIGraphicsBeginImageContextWithOptions(destSize, ![image KLO_hasAlpha], 0.0);
     
     CGContextSetInterpolationQuality(UIGraphicsGetCurrentContext(), kCGInterpolationHigh);
     

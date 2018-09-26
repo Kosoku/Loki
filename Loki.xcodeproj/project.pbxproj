@@ -819,6 +819,7 @@
 					};
 					07E8EB0A1E7317AC001639A2 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = C6AZ27TEW2;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -942,7 +943,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = scripts/./increment_build_number.sh;
+			shellScript = "scripts/./increment_build_number.sh\n";
 		};
 		0747CA9921408C0800F734F5 /* increment build number */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1982,6 +1983,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = C6AZ27TEW2;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -2035,6 +2037,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = C6AZ27TEW2;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
