@@ -1287,7 +1287,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.kosoku.loki;
 				PRODUCT_NAME = Loki;
 				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1512,7 +1512,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.kosoku.loki;
 				PRODUCT_NAME = Loki;
 				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1728,7 +1728,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.kosoku.loki;
 				PRODUCT_NAME = Loki;
 				SDKROOT = appletvos;
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 				VALIDATE_PRODUCT = YES;
@@ -1950,7 +1950,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.kosoku.loki;
 				PRODUCT_NAME = Loki;
 				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = 4;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
