@@ -50,7 +50,7 @@
     KLOImage *retval;
     
 #if (TARGET_OS_IPHONE)
-    UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
+    UIGraphicsBeginImageContextWithOptions(image.size, NO, 0.0);
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     
@@ -94,7 +94,7 @@
     KLOImage *retval;
     
 #if (TARGET_OS_IPHONE)
-    UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
+    UIGraphicsBeginImageContextWithOptions(image.size, NO, 0.0);
     
     [color setFill];
     [[image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] drawAtPoint:CGPointZero blendMode:kCGBlendModeNormal alpha:1.0];
@@ -127,7 +127,7 @@
     KLOImage *retval;
     
 #if (TARGET_OS_IPHONE)
-    UIGraphicsBeginImageContextWithOptions(CGSizeMake(1, 1), NO, 0);
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(1, 1), NO, 0.0);
     
     [color setFill];
     UIRectFill(CGRectMake(0, 0, 1, 1));
