@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Loki'
-  s.version          = '1.4.1'
+  s.version          = '1.4.2'
   s.summary          = 'Loki is an iOS/macOS/tvOS/watchOS framework for manipulating UIImage/NSImage.'
 
 # This description is used to generate tags and improve search results.
@@ -23,7 +23,7 @@ Loki is an iOS/macOS/tvOS/watchOS framework for manipulating `UIImage`/`NSImage`
 
   s.homepage         = 'https://github.com/Kosoku/Loki'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
-  s.license          = { :type => 'BSD', :file => 'license.txt' }
+  s.license          = { :type => 'Apache 2.0', :file => 'LICENSE.txt' }
   s.author           = { 'William Towe' => 'willbur1984@gmail.com' }
   s.source           = { :git => 'https://github.com/Kosoku/Loki.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
