@@ -29,8 +29,10 @@ CGSize KLOCGImageThumbnailSizeFromSizeMaintainingAspectRatio(CGImageRef imageRef
     if (maintainAspectRatio) {
         CGFloat width = CGImageGetWidth(imageRef);
         CGFloat height = CGImageGetHeight(imageRef);
-        CGFloat scale = width > height ? size.width / width : size.height / height;
-        CGSize retval = CGSizeMake(width * scale, height * scale);
+        CGFloat widthScale = size.width / width;
+        CGFloat heightScale = size.height / height;
+        CGFloat scale = MIN(widthScale, heightScale);
+        CGSize retval = CGSizeMake(ceil(width * scale), ceil(height * scale));
         
         return retval;
     }
