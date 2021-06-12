@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'Loki'
-  s.version          = '2.0.0'
+  s.version          = '2.0.1'
   s.summary          = 'Loki is an iOS/macOS/tvOS/watchOS framework for manipulating UIImage/NSImage.'
   s.description      = <<-DESC
 Loki is an iOS/macOS/tvOS/watchOS framework for manipulating `UIImage`/`NSImage`. Methods are provided to resize, blur, adjust contrast, brightness, or saturation. A limited subset of methods are provided on watchOS.
